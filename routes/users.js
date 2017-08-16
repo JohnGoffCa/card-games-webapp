@@ -1,14 +1,14 @@
-"use strict";
+'use strict';
 
 const express = require('express');
 const router  = express.Router();
 
 module.exports = (knex) => {
 
-  router.get("/", (req, res) => {
+  router.get('/', (req, res) => {
     knex
-      .select("*")
-      .from("users")
+      .select('*')
+      .from('users')
       .then((results) => {
         res.json(results);
     });
