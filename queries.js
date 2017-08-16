@@ -51,5 +51,14 @@ function addPlayersToGame(player1_id, player2_id, url, complete){
 	       	console.log('success')
 	       })
 }
+//addPlayersToGame(1, 2, 'xyz')
 
-addPlayersToGame(1, 2, 'xyz')
+function findUsersGames(user_id){
+	return knex.select('url').from('gamesessions')
+	       .whereIn(user_id, function(){
+	       	this.select('player1_id').from('gamesessions')
+	       }).orWhereIn(user_id, function(){
+	       	this.select('player2_id').from('gamesessions')
+	       }).then((result) => {console.log(result)})
+}
+findUsersGames(1)
