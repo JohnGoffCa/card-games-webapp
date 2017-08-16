@@ -46,7 +46,12 @@ app.use(cookieParser());
 
 // GET requests to render pages
 app.get('/', (req, res) => {
-  res.render('index');
+  if (req.cookies['username']) {
+    res.render('index');
+  } else {
+    res.redirect('/login');
+  }
+
 });
 
 app.get("/login", (req, res) => {
@@ -64,11 +69,16 @@ app.get('/profile/:user', (req, res) => {
 });
 
 // POST request to login via cookie parser
- // Allow user to login and receive cookie from server
 app.post('/login', (req, res) => {
   res.cookie('username', req.body.username);
     res.redirect('/');
   });
+
+// Allow user to logout and clear cookie from server
+app.get("/logout", (req, res) => {
+  res.clearCookie("username");
+  res.redirect("/");
+ });
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
