@@ -40,9 +40,17 @@ app.use(express.static('public'));
 app.use('/api/users', usersRoutes(knex));
 app.use('/api/goofspiel', goofspielRoutes(knex));
 
-// Render Pages
+// Use cookie-parser to create a simple login mockup
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+// GET requests to render pages
 app.get('/', (req, res) => {
   res.render('index');
+});
+
+app.get("/login", (req, res) => {
+  res.render('login');
 });
 
 app.get('/game/goofspiel/:id', (req, res) => {
@@ -54,6 +62,13 @@ app.get('/profile/:user', (req, res) => {
   // Search username or id on db
   res.render('profile');
 });
+
+// POST request to login via cookie parser
+ // Allow user to login and receive cookie from server
+app.post('/login', (req, res) => {
+  res.cookie('username', req.body.username);
+    res.redirect('/');
+  });
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
