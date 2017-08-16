@@ -40,9 +40,19 @@ app.use(express.static('public'));
 app.use('/api/users', usersRoutes(knex));
 app.use('/api/goofspiel', goofspielRoutes(knex));
 
-// Home page
+// Render Pages
 app.get('/', (req, res) => {
   res.render('index');
+});
+
+app.get('/game/goofspiel/:id', (req, res) => {
+  // Search game id on db
+  res.render('goofspiel');
+});
+
+app.get('/profile/:user', (req, res) => {
+  // Search username or id on db
+  res.render('profile');
 });
 
 app.listen(PORT, () => {
