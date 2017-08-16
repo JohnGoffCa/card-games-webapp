@@ -11,12 +11,45 @@ module.exports = (knex) => {
   
   router.post('/:id', (req, res) => {
     goofObj[req.params.id] = {
+      player1: req.body.player1ID,
+      p1Won: [],
+      player2: req.body.player2ID,
+      p2Won: [],
       p1Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       p2Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       prizes: shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]),
       turn: 0,
     };
-    res.send(200);
+    res.send(201);
+  });
+
+  router.post('/:id/nextturn', (req, res) => {
+    const currObj = goofObj[req.params.id];
+    if (currObj) {
+      if (currObj.turn === 0)
+        currObj.turn = 1;
+      else 
+        currObj.turn = 0;
+
+      if (req.body.playerID === currObj.player1)
+        currObj.p1LastPlayed = req.body.played;
+      else
+        currObj.p2LastPlayed = req.body.played;
+
+      if (currObj.p2LastPlayed && currObj.p1LastPlayed) {
+        if (currObj.p1LastPlayed > currObj.p2LastPlayed) {
+          currObj.p1Won.push(currObj.prizes.shift());
+        } else if (currObj.p1LastPlayed < currObj.p2LastPlayed) {
+          currObj.p2Won.push(currObj.prizes.shift());
+        } else {
+          currObj.prizes.shift();
+        }
+      }
+
+      res.send(201);
+    } else {
+      res.status(403).send('no game by that id yet exists');
+    }
   });
 
   return router;
