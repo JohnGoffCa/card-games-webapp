@@ -71,19 +71,12 @@ app.get('/profile/:user', (req, res) => {
   res.render('profile');
 });
 
-/*
-// POST request to login via cookie parser
-app.post('/login', (req, res) => {
-  res.cookie('username', req.body.username);
-    res.redirect('/');
-  });
-
-// Allow user to logout and clear cookie from server
+// Allow user to logout and clear cookie from server (should move to userroute)
 app.get("/logout", (req, res) => {
   res.clearCookie("username");
   res.redirect("/");
  });
-*/
+
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
