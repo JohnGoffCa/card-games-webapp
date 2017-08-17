@@ -10,13 +10,17 @@ module.exports = (knex) => {
       .select('username')
       .from('users')
       .then(results => {
-        results.forEach(result => {
-          if (req.body.username === result) {
+        for(var result of results) {
+          console.log('rrrrr', req.body)
+          if (req.body.username === result.username) {
             res.redirect('/');
-          } else {
-            res.redirect('/login');
+            return;
           }
-        })
+        }
+
+        res.redirect('/login');
+      }).catch(err => {
+        console.error("Error: ", err);
       })
   });
   return router;
