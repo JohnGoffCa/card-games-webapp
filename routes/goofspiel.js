@@ -8,12 +8,16 @@ module.exports = (knex) => {
   router.get('/:id', (req, res) => {
     res.send(goofObj[req.params.id]);
   });
-  
+
   router.post('/:id', (req, res) => {
     goofObj[req.params.id] = {
-      player1: req.body.username,
+      //player1: req.body.username,
+      // access global variable for now
+      player1: playersReady.goofspiel.player1,
       p1Won: [],
-      player2: req.body.username,
+      //player2: req.body.username,
+      //same as above
+      player2: playersReady.goofspiel.player2,
       p2Won: [],
       p1Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       p2Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
@@ -28,7 +32,7 @@ module.exports = (knex) => {
     if (currObj) {
       if (currObj.turn === 0)
         currObj.turn = 1;
-      else 
+      else
         currObj.turn = 0;
 
       if (req.body.username === currObj.player1)
@@ -54,3 +58,6 @@ module.exports = (knex) => {
 
   return router;
 };
+
+// on the front end i get an entire object when i do ajax post
+// so i just have to read this.p1Hand

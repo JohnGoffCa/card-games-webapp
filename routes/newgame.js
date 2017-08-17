@@ -2,10 +2,11 @@ const express = require('express');
 const router  = express.Router();
 const random = require('../helpers/random');
 
-const playersReady = {};
+//const playersReady = {};
+global.playersReady = {};
 
 module.exports = () => {
-  
+
   router.get('/', (req, res) => {
     res.render('newgame');
   });
@@ -18,9 +19,10 @@ module.exports = () => {
         url: random(),
         ready: false,
       };
+      console.log("player1 is ready", playersReady);
     } else {
       playersReady.goofspiel.player2 = req.cookies.username;
-
+      console.log("who is player2?", playersReady);
       //add playersReady to gamesession and redirect to /game/goofspiel/:url
       //POST to api endpoint to create in memory object
     }
