@@ -12,6 +12,7 @@ let knex = require('knex')({
 	}
 });
 
+
 function findUser(username) {
 	return knex('users').where({
     username: username
@@ -34,7 +35,14 @@ function findUser(username) {
     return knex.destroy();
   })
 }
+
+
+var user = null
 findUser('Bob')
+	.then(function(data) {
+		user = data
+	})
+
 //ask about using promises to get data
 // function insert(obj) {
 // 	return knex('').insert(...);
@@ -45,8 +53,8 @@ findUser('Bob')
 // 	return insert(obj);
 // }).then(() => {
 
-function addPlayersToGame(player1_id, player2_id, url, complete){
-	return knex('gamesessions').insert({player1_id: player1_id, player2_id: player2_id, url: url, complete: false})
+function addPlayersToGame(player1_id, player2_id, url){
+	return knex('gamesessions').insert({player1_id: player1_id, player2_id: player2_id, url: url})
 	       .then((result) => {
 	       	console.log('success')
 	       })
@@ -61,4 +69,13 @@ function findUsersGames(user_id){
 	       	this.select('player2_id').from('gamesessions')
 	       }).then((result) => {console.log(result)})
 }
-findUsersGames(1)
+//findUsersGames(1)
+
+function findUserWins(user_id){
+	return knex('gamesessions').count('winner_id')
+	       .whereIn(user_id, function(){
+	       	this.select('winner_id').from('gamesessions')
+	       }).then((result) => {console.log(result)})
+}
+
+findUserWins(1)
