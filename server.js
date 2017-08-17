@@ -47,7 +47,10 @@ app.use(cookieParser());
 // GET requests to render pages
 app.get('/', (req, res) => {
   if (req.cookies['username']) {
-    res.render('index');
+    let templateVars = {
+      loggedin: true
+    };
+    res.render('index', templateVars);
   } else {
     res.redirect('/login');
   }
