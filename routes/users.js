@@ -9,16 +9,16 @@ module.exports = (knex) => {
     knex
       .select('username')
       .from('users')
+      .where({
+        username: req.body.username,
+        //can add password authentication here
+      })
       .then(results => {
-        for(var result of results) {
-          console.log('rrrrr', req.body)
-          if (req.body.username === result.username) {
-            res.redirect('/');
-            return;
-          }
+        if(results.length > 0) {
+          res.redirect('/');
+        } else {
+          res.redirect('/login');
         }
-
-        res.redirect('/login');
       }).catch(err => {
         console.error("Error: ", err);
       })
