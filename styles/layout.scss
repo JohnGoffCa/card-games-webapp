@@ -1,7 +1,36 @@
 body {
   background-color: #EEE;
+  background-image: url("/images/wood.png");
+}
 
-  h1 {
-    color: #244751;
-  }
+body h1 {
+  color: #244751;
+}
+
+.banner-container {
+  margin: auto;
+  text-align: center;
+  width: 800px;
+}
+
+.banner {
+  height: 500px;
+  padding: 8px;
+}
+
+.match-btn {
+    background-color: #C9302C;
+    border: 1px solid #000;
+    border-radius: 8px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    bottom: 0;
+    width: 250px;
+}
+
+.match-btn a {
+  color: #fff;
+  font-size: 22px;
+  text-decoration: none;
 }
