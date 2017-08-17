@@ -77,5 +77,3 @@ function findUserWins(user_id){
 	       	this.select('winner_id').from('gamesessions')
 	       }).then((result) => {console.log(result)})
 }
-
-findUserWins(1)
