@@ -20,6 +20,9 @@ module.exports = () => {
         ready: false,
       };
       console.log("player1 is ready", playersReady);
+    } else if (playersReady.goofspiel.player1 === req.cookies.username) {
+        console.log("you are already player1")
+        return;
     } else {
       playersReady.goofspiel.player2 = req.cookies.username;
       console.log("who is player2?", playersReady);
