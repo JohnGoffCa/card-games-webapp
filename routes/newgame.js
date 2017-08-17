@@ -28,6 +28,8 @@ module.exports = () => {
       console.log("who is player2?", playersReady);
       //add playersReady to gamesession and redirect to /game/goofspiel/:url
       //POST to api endpoint to create in memory object
+      res.redirect(`/api/goofspiel/${playersReady.goofspiel.url}`)
+      playersReady = {};
     }
   });
 
