@@ -19,7 +19,10 @@ module.exports = () => {
         ready: false,
       };
     } else {
-      //add playersReady to gamesession and redirect to /game/goofspiel/:id
+      playersReady.goofspiel.player2 = req.cookies.username;
+
+      //add playersReady to gamesession and redirect to /game/goofspiel/:url
+      //POST to api endpoint to create in memory object
     }
   });
 
