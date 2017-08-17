@@ -40,7 +40,7 @@ app.use(express.static('public'));
 // Mount all resource routes
 app.use('/', usersRoutes(knex));
 app.use('/api/goofspiel', goofspielRoutes(knex));
-app.use('/api/goofspiel', newgameRoutes());
+app.use('/newgame', newgameRoutes());
 
 // Use cookie-parser to create a simple login mockup
 var cookieParser = require('cookie-parser');
