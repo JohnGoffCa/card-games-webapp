@@ -20,6 +20,9 @@ module.exports = () => {
         ready: false,
       };
       console.log("player1 is ready", playersReady);
+      // let searching = setInterval(() => {
+        
+      // }, 1000)
     } else if (playersReady.goofspiel.player1 === req.cookies.username) {
         console.log("you are already player1")
         return;
