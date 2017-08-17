@@ -4,23 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Choose Your Match</title>
-</head>
+  <head>
+    <% include ./partials/_head %>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+  </head>
+<body class="container">
+  <header>
+    <% include ./partials/_header %>
+  </header>
 <body>
   <div class="container">
-    <div class="card-columns">
-    <div class="card">
-      <img class="card-img-top img-fluid" src="..." alt="Card image cap">
-      <div class="card-block">
-        <h4 class="card-title">Card title that wraps to a new line</h4>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
+    <div id="goofspiel" class="card" style="width: 20rem;">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-block">
+      <h4 class="card-title">Card title</h4>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
-    <div class="card">
-      <img class="card-img-top img-fluid" src="..." alt="Card image cap">
-      <div class="card-block">
-        <h4 class="card-title">Card title that wraps to a new line</h4>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
+    <div class="card" style="width: 20rem;">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-block">
+      <h4 class="card-title">Card title</h4>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+</div>
+
   </div>
 </body>
 </html>
