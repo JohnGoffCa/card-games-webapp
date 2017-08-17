@@ -5,14 +5,20 @@ const router  = express.Router();
 
 module.exports = (knex) => {
 
-  router.get('/', (req, res) => {
+  router.post('/login', (req, res) => {
     knex
-      .select('*')
+      .select('username')
       .from('users')
-      .then((results) => {
-        res.json(results);
-    });
+      .then(results => {
+        results.forEach(result => {
+          if (req.body.username === result) {
+            res.redirect('/');
+          } else {
+            res.redirect('/login');
+          }
+        })
+      })
   });
-
   return router;
+
 }

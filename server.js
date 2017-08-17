@@ -37,7 +37,7 @@ app.use('/styles', sass({
 app.use(express.static('public'));
 
 // Mount all resource routes
-app.use('/api/users', usersRoutes(knex));
+app.use('/', usersRoutes(knex));
 app.use('/api/goofspiel', goofspielRoutes(knex));
 
 // Use cookie-parser to create a simple login mockup
@@ -71,6 +71,7 @@ app.get('/profile/:user', (req, res) => {
   res.render('profile');
 });
 
+/*
 // POST request to login via cookie parser
 app.post('/login', (req, res) => {
   res.cookie('username', req.body.username);
@@ -82,6 +83,7 @@ app.get("/logout", (req, res) => {
   res.clearCookie("username");
   res.redirect("/");
  });
+*/
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);
