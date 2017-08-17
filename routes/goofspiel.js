@@ -11,9 +11,9 @@ module.exports = (knex) => {
   
   router.post('/:id', (req, res) => {
     goofObj[req.params.id] = {
-      player1: req.body.player1ID,
+      player1: req.body.username,
       p1Won: [],
-      player2: req.body.player2ID,
+      player2: req.body.username,
       p2Won: [],
       p1Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       p2Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
@@ -31,7 +31,7 @@ module.exports = (knex) => {
       else 
         currObj.turn = 0;
 
-      if (req.body.playerID === currObj.player1)
+      if (req.body.username === currObj.player1)
         currObj.p1LastPlayed = req.body.played;
       else
         currObj.p2LastPlayed = req.body.played;
