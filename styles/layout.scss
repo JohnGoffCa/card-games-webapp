@@ -1,25 +1,30 @@
-body {
-  background-color: #EEE;
-  background-image: url("/images/wood.png");
-}
+$font-stack-headings: 'Berkshire Swash', cursive;
+$font-stack-normal: 'Open Sans', sans-serif;
+$primary-color: #0C6339;
+$red-color: #C9302C;
 
-body h1 {
-  color: #244751;
+/* Main page */
+body {
+  background-color: $primary-color;
+  background-image: url("/images/wood.png");
+  color: #eee;
+  font-family: $font-stack-normal;
 }
 
 .banner-container {
   margin: auto;
   text-align: center;
   width: 800px;
+
+  .banner {
+    height: 500px;
+    padding: 8px;
+  }
 }
 
-.banner {
-  height: 500px;
-  padding: 8px;
-}
 
 .match-btn {
-  background-color: #C9302C;
+  background-color: $red-color;
   border: 1px solid #000;
   border-radius: 8px;
   margin: auto;
@@ -27,16 +32,25 @@ body h1 {
   text-align: center;
   bottom: 0;
   width: 250px;
+
+  a {
+    color: #fff;
+    font-size: 22px;
+    text-decoration: none;
+  }
 }
 
-.match-btn a {
-  color: #fff;
-  font-size: 22px;
-  text-decoration: none;
+/* Navigation bar */
+
+.navbar-brand {
+
+  font-family: $font-stack-headings;
+
+
 }
 
-.navbar-btn {
-  float: right;
+.navbar {
+  background-color: $red-color;
 }
 
 .playing-card{
