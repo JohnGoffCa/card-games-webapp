@@ -1,41 +1,23 @@
-const shuffle = require('../helpers/shuffle');
+const initGoofData = require('../helpers/initGoofDatabase');
 const express = require('express');
 const router  = express.Router();
 
-const goofObj = {};
+global.goofObj = {};
 
 module.exports = (knex) => {
   router.get('/:id', (req, res) => {
-    res.send(goofObj[req.params.id]);
+    res.send(global.goofObj[req.params.id]);
   });
 
   router.post('/:id', (req, res) => {
-    goofObj[req.params.id] = {
-      // player1: req.body.player1,
-      // comes from the json sent from newgame, uses body parser to make it available
-      player1: req.body.player1,
-      p1Won: [],
-      //player2: req.body.player2,
-      //same as above
-      player2: req.body.player2,
-      p2Won: [],
-      p1Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-      p2Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-      prizes: shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]),
-      turn: 0,
-    };
+    initGoofData(global.goofObj[req.params.id], req.body.player1, req.body.player2);
     //console.log(goofObj)
     res.send(201);
   });
 
   router.post('/:id/nextturn', (req, res) => {
-    const currObj = goofObj[req.params.id];
+    const currObj = global.goofObj[req.params.id];
     if (currObj) {
-      if (currObj.turn === 0)
-        currObj.turn = 1;
-      else
-        currObj.turn = 0;
-
       if (req.body.username === currObj.player1)
         currObj.p1LastPlayed = req.body.played;
       else

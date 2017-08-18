@@ -1,4 +1,5 @@
 const random = require('../helpers/random');
+const initGoofData = require('../helpers/initGoofDatabase');
 const request = require('request');
 const express = require('express');
 const router  = express.Router();
@@ -9,7 +10,11 @@ let playersReady = {};
 module.exports = () => {
 
   router.get('/', (req, res) => {
-    res.render('newgame');
+    if (req.cookies['username']) {
+      res.render('newgame');
+    } else {
+      res.redirect('/login');
+    }
   });
 
   router.post('/goofspiel', (req, res) => {
@@ -31,23 +36,8 @@ module.exports = () => {
     } else {
       playersReady.goofspiel.player2 = req.cookies.username;
       console.log("who is player2?", playersReady);
-      //POST to api endpoint to create in memory object
-      request({
-        url: `/api/goofspiel/${playersReady.goofspiel.url}`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-
-        json: playersReady.goofspiel,
-      }, (err, res, body) => {
-        if (err)
-          console.log(err);
-
-        if (res && (res.statusCode === 200 || res.statusCode === 201)) {
-          console.log(body);
-        }
-      });
+      //connect to api endpoint to create in memory object
+      initGoofData(playersReady.goofspiel.url, playersReady.goofspiel.player1, playersReady.goofspiel.player2);
 
       //add playersReady to gamesession and redirect to /game/goofspiel/:url
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`)
