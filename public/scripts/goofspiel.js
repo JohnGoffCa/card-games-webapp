@@ -73,20 +73,20 @@ $(document).ready(() => {
     $('#send-button').removeClass('hidden');
   });
   $('#send-button').on('click', () => {
-    if ((gameData.player1 === Cookies.get('username') && !gameData.p1Sent) || (gameData.player2 === Cookies.get('username') && !gameData.p2Sent)) {
-      $(`#${sent}`).addClass('hidden');
-      $('#send-button').addClass('hidden');
-      $.ajax({
-        type: 'POST',
-        url: `/api/goofspiel/${url}/nextturn`
-      });
-      if (gameData.player1 === Cookies.get('username') {
-        let index = gameData.p1Hand.indexOf(sent);
-        gameData.p1Hand.splice(index, 1);
-      } else if (gameData.player2 === Cookies.get('username') {
-        let index = gameData.p2Hand.indexOf(sent);
-        gameData.p2Hand.splice(index, 1);
-      }
-    }
+    // if ((gameData.player1 === Cookies.get('username') && !gameData.p1Sent) || (gameData.player2 === Cookies.get('username') && !gameData.p2Sent)) {
+    //   $(`#${sent}`).addClass('hidden');
+    //   $('#send-button').addClass('hidden');
+    //   $.ajax({
+    //     type: 'POST',
+    //     url: `/api/goofspiel/${url}/nextturn`
+    //   });
+    //   if (gameData.player1 === Cookies.get('username') {
+    //     let index = gameData.p1Hand.indexOf(sent);
+    //     gameData.p1Hand.splice(index, 1);
+    //   } else if (gameData.player2 === Cookies.get('username') {
+    //     let index = gameData.p2Hand.indexOf(sent);
+    //     gameData.p2Hand.splice(index, 1);
+    //   }
+    // }
   });
 });
