@@ -11,7 +11,6 @@ module.exports = (knex) => {
 
   router.post('/:id', (req, res) => {
     initGoofData(global.goofObj[req.params.id], req.body.player1, req.body.player2);
-    //console.log(goofObj)
     res.send(201);
   });
 
