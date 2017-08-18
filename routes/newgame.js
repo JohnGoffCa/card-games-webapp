@@ -12,20 +12,21 @@ module.exports = () => {
     res.render('newgame');
   });
 
-  router.post('/', (req, res) => {
+  router.post('/goofspiel', (req, res) => {
     if (!playersReady.goofspiel) {
       playersReady.goofspiel = {
         player1: req.cookies.username,
         player2: null,
         url: random(),
       };
+
       console.log("player1 is ready", playersReady);
-      // let searching = setInterval(() => {
-        
-      // }, 1000)
+      res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`);
+
     } else if (playersReady.goofspiel.player1 === req.cookies.username) {
         console.log("you are already player1")
         return;
+
     } else {
       playersReady.goofspiel.player2 = req.cookies.username;
       console.log("who is player2?", playersReady);
@@ -36,6 +37,7 @@ module.exports = () => {
         headers: {
           'Content-Type': 'application/json'
         },
+
         json: playersReady.goofspiel,
       }, (err, res, body) => {
         if (err)
@@ -48,7 +50,7 @@ module.exports = () => {
 
       //add playersReady to gamesession and redirect to /game/goofspiel/:url
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`)
-      playersReady = {};
+      playersReady.goofspiel = {};
     }
   });
 

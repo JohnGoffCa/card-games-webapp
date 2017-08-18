@@ -13,19 +13,9 @@
     <div class="game-board">
 
       <div class="row" class="player2-cards">
-        <div id="1"><img src="/images/00.png" class="playing-card"></div>
-        <div id="2"><img src="/images/00.png" class="playing-card"></div>
-        <div id="3"><img src="/images/00.png" class="playing-card"></div>
-        <div id="4"><img src="/images/00.png" class="playing-card"></div>
-        <div id="5"><img src="/images/00.png" class="playing-card"></div>
-        <div id="6"><img src="/images/00.png" class="playing-card"></div>
-        <div id="7"><img src="/images/00.png" class="playing-card"></div>
-        <div id="8"><img src="/images/00.png" class="playing-card"></div>
-        <div id="9"><img src="/images/00.png" class="playing-card"></div>
-        <div id="10"><img src="/images/00.png" class="playing-card"></div>
-        <div id="11"><img src="/images/00.png" class="playing-card"></div>
-        <div id="12"><img src="/images/00.png" class="playing-card"></div>
-        <div id="13"><img src="/images/00.png" class="playing-card"></div>
+        <% for (let i = 1; i <= 13; i++) { %>
+          <div id="<%= i %>"><img src="/images/00.png" class="playing-card"></div>
+        <% } %>
         </div>
       </div>
       <div class="row" class="prize-cards">
@@ -33,19 +23,9 @@
         <div id="1"><img src="/images/00.png" class="playing-card"></div>
       </div>
       <div class="row" class="player1-cards">
-        <div id="1"><img src="/images/00.png" class="playing-card"></div>
-        <div id="2"><img src="/images/00.png" class="playing-card"></div>
-        <div id="3"><img src="/images/00.png" class="playing-card"></div>
-        <div id="4"><img src="/images/00.png" class="playing-card"></div>
-        <div id="5"><img src="/images/00.png" class="playing-card"></div>
-        <div id="6"><img src="/images/00.png" class="playing-card"></div>
-        <div id="7"><img src="/images/00.png" class="playing-card"></div>
-        <div id="8"><img src="/images/00.png" class="playing-card"></div>
-        <div id="9"><img src="/images/00.png" class="playing-card"></div>
-        <div id="10"><img src="/images/00.png" class="playing-card"></div>
-        <div id="11"><img src="/images/00.png" class="playing-card"></div>
-        <div id="12"><img src="/images/00.png" class="playing-card"></div>
-        <div id="13"><img src="/images/00.png" class="playing-card"></div>
+        <% for (let i = 1; i <= 13; i++) { %>
+          <div id="<%= i %>"><img src="/images/0<%= i %>.png" class="playing-card"></div>
+        <% } %>
       </div>
     </div>
 </body>
