@@ -60,6 +60,27 @@ body {
 
 /* Goofspiel */
 
+.game-board {
+  background: green; /* For browsers that do not support gradients */
+  background: -webkit-radial-gradient(green 30%, darkgreen 70%); /* Safari 5.1 to 6.0 */
+  background: -o-radial-gradient(green 30%, darkgreen 70%); /* For Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(green 30%, darkgreen 70%); /* For Firefox 3.6 to 15 */
+  background: radial-gradient(green 30%, darkgreen 70%); /* Standard syntax (must be last) */
+  margin: auto;
+  width: 800px;
+
+  .prize-cards {
+    width: 150px;
+  }
+
+  .row {
+    margin: auto;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+
+}
+
 .playing-card {
   width: 50px;
   height: 80px;
