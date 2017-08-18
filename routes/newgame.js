@@ -3,7 +3,8 @@ const request = require('request');
 const express = require('express');
 const router  = express.Router();
 
-global.playersReady = {};
+//global.playersReady = {};
+let playersReady = {};
 
 module.exports = () => {
 
@@ -17,7 +18,6 @@ module.exports = () => {
         player1: req.cookies.username,
         player2: null,
         url: random(),
-        ready: false,
       };
       console.log("player1 is ready", playersReady);
       // let searching = setInterval(() => {
@@ -29,9 +29,25 @@ module.exports = () => {
     } else {
       playersReady.goofspiel.player2 = req.cookies.username;
       console.log("who is player2?", playersReady);
-      //add playersReady to gamesession and redirect to /game/goofspiel/:url
       //POST to api endpoint to create in memory object
-      res.redirect(`/api/goofspiel/${playersReady.goofspiel.url}`)
+      request({
+        url: `/api/goofspiel/${playersReady.goofspiel.url}`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        json: playersReady.goofspiel,
+      }, (err, res, body) => {
+        if (err)
+          console.log(err);
+
+        if (res && (res.statusCode === 200 || res.statusCode === 201)) {
+          console.log(body);
+        }
+      });
+
+      //add playersReady to gamesession and redirect to /game/goofspiel/:url
+      res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`)
       playersReady = {};
     }
   });

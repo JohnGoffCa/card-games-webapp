@@ -1,6 +1,6 @@
+const shuffle = require('../helpers/shuffle');
 const express = require('express');
 const router  = express.Router();
-const shuffle = require('../helpers/shuffle');
 
 const goofObj = {};
 
@@ -11,20 +11,20 @@ module.exports = (knex) => {
 
   router.post('/:id', (req, res) => {
     goofObj[req.params.id] = {
-      //player1: req.body.username,
-      // access global variable for now
-      player1: playersReady.goofspiel.player1,
+      // player1: req.body.player1,
+      // comes from the json sent from newgame, uses body parser to make it available
+      player1: req.body.player1,
       p1Won: [],
-      //player2: req.body.username,
+      //player2: req.body.player2,
       //same as above
-      player2: playersReady.goofspiel.player2,
+      player2: req.body.player2,
       p2Won: [],
       p1Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       p2Hand: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       prizes: shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]),
       turn: 0,
     };
-    console.log(goofObj)
+    //console.log(goofObj)
     res.send(201);
   });
 
