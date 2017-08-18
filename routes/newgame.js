@@ -1,6 +1,6 @@
+const random = require('../helpers/random');
 const express = require('express');
 const router  = express.Router();
-const random = require('../helpers/random');
 
 //const playersReady = {};
 global.playersReady = {};
