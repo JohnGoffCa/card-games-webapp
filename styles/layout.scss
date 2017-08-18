@@ -11,6 +11,13 @@ body {
   background-image: url("/images/wood.png");
   color: #eee;
   font-family: $font-stack-normal;
+
+  h1 {
+    color: #fff;
+    font-family: $font-stack-headings;
+    text-shadow: -1px 0 #180D01, 0 1px #180D01, 1px 0 #180D01, 0 -1px #180D01;
+  }
+
 }
 
 .banner-container {
@@ -59,6 +66,10 @@ body {
 }
 
 /* Goofspiel */
+.game-title {
+  line-height: 4px;
+  text-align: center;
+}
 
 .game-board {
   background: green; /* For browsers that do not support gradients */
@@ -66,6 +77,7 @@ body {
   background: -o-radial-gradient(green 30%, darkgreen 70%); /* For Opera 11.6 to 12.0 */
   background: -moz-radial-gradient(green 30%, darkgreen 70%); /* For Firefox 3.6 to 15 */
   background: radial-gradient(green 30%, darkgreen 70%); /* Standard syntax (must be last) */
+  border: 1px solid #180D01;
   margin: auto;
   width: 800px;
 
@@ -92,5 +104,5 @@ body {
 }
 
 #send-button {
-  background-color: blue;
+  background-color: $red-color;
 }
