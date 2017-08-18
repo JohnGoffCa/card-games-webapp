@@ -1,5 +1,23 @@
 let sent = 0;
+let gameData = {};
+const url = window.location.pathname.slice(-6);
+const interval = 1000;
+function recieveDataFromServer() {
+  $.ajax({
+    url: `/api/goofspiel/${url}`,
+    type: 'GET',
+    success: (data) => {
+      gameData = data;
+    },
+    complete: (data) => {
+      setTimeout(recieveDataFromServer, interval);
+    },
+  });
+}
 $(document).ready(() => {
+  setTimeout(recieveDataFromServer, interval);
+
+  // CLICK HANDLERS //
   $('#1').on('click', () => {
     sent = 1;
   });
