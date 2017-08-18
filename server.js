@@ -53,7 +53,7 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   if (req.cookies['username']) {
     let templateVars = {
-      loggedin: true
+      username: req.cookies.username
     };
     res.render('index', templateVars);
   } else {
@@ -68,7 +68,10 @@ app.get("/login", (req, res) => {
 
 app.get('/game/goofspiel/:id', (req, res) => {
   // Search game id on db
-  res.render('goofspiel');
+  let templateVars = {
+    username: req.cookies.username
+  };
+  res.render('goofspiel', templateVars);
 });
 
 app.get('/profile/:user', (req, res) => {

@@ -11,7 +11,10 @@ module.exports = () => {
 
   router.get('/', (req, res) => {
     if (req.cookies['username']) {
-      res.render('newgame');
+      let templateVars = {
+        username: req.cookies.username
+      };
+      res.render('newgame', templateVars);
     } else {
       res.redirect('/login');
     }

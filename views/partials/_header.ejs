@@ -5,12 +5,24 @@
   <a class="navbar-brand" href="/"><h1>Matchmaking</h1></a>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
+
+    <% if (!username) { %>
+
       <li class="nav-item">
         <a class="btn btn-warning" role="button" href="/login">Login</a>
       </li>
+
+    <% } else { %>
       <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>
       </li>
+
+      <li class="nav-item">
+        <a href="/profile/">Hi <%=username %></a>
+      </li>
+
+    <% } %>
+
     </ul>
   </div>
 </nav>

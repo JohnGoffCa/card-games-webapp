@@ -18,7 +18,7 @@ function recieveDataFromServer() {
         } else {
           renderVictory(gameData);
         }
-      } 
+      }
     },
     complete: (data) => {
       setTimeout(recieveDataFromServer, interval);
@@ -88,24 +88,42 @@ function renderScore(data) {
 function renderVictory(data) {
   const p1Score = data.p1Won.reduce((a, b) => a + b, 0);
   const p2Score = data.p2Won.reduce((a, b) => a + b, 0);
-  $('#victory').removeClass('hidden');
+  // $('#victory').removeClass('hidden');
   if (gameData.player1 === window.Cookies.get('username')) {
     if (p1Score > p2Score) {
       console.log('winner')
       //display victory for p1
+      showNotification({ msg: "You won!" })
     } else if (p1Score < p2Score) {
       console.log('loser')
       //p1 lost
+      showNotification({ msg: "You lost!" })
     }
   } else if (gameData.player2 === window.Cookies.get('username')) {
     if (p2Score > p1Score) {
       console.log('winner')
       //display victory for p2
+      showNotification({ msg: "You won!" })
     } else if (p2Score < p1Score) {
       console.log('loser')
       //p2 lost
+      showNotification({ msg: "You lost!" })
     }
   }
+}
+
+/* Render notification messages */
+function showNotification(contentObj) {
+  const msg = contentObj.msg;
+  const type = contentObj.type;
+
+  const newNotification = `<li class="notification">${msg}</li>`
+
+  let notifications = $('#notifications').html('').append(newNotification);
+
+  setTimeout(function () {
+    notifications.html('');
+  }, 5000)
 }
 
 $(document).ready(() => {
