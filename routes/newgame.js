@@ -24,8 +24,9 @@ module.exports = () => {
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`);
 
     } else if (playersReady.goofspiel.player1 === req.cookies.username) {
-        console.log("you are already player1")
-        return;
+      console.log("you are already player1")
+      res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`);
+      return;
 
     } else {
       playersReady.goofspiel.player2 = req.cookies.username;
