@@ -1,13 +1,13 @@
 $font-stack-headings: 'Berkshire Swash', cursive;
 $font-stack-normal: 'Open Sans', sans-serif;
-$primary-color: #0C6339;
 $red-color: #C9302C;
 $yellow-color: #FFBF00;
+$green-color: #449D44;
 
 /* Main page */
 body {
   padding-top: 100px;
-  background-color: $primary-color;
+  background-color: $green-color;
   background-image: url("/images/wood.png");
   color: #eee;
   font-family: $font-stack-normal;
@@ -41,7 +41,6 @@ body {
 }
 
 /* Navigation bar */
-
 .navbar {
   background-color: $red-color;
 }
@@ -50,11 +49,18 @@ body {
   font-family: $font-stack-headings;
 }
 
-a.nav-link {
-  color: white;
+/* New game page */
+.card{
+  background-color: $green-color;
+
+  .card-img-top {
+    padding-bottom: 20px;
+  }
 }
 
-.playing-card{
+/* Goofspiel */
+
+.playing-card {
   width: 50px;
   height: 80px;
   margin: 5px;
