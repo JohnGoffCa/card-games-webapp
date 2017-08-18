@@ -10,8 +10,10 @@ function recieveDataFromServer() {
     success: (data) => {
       gameData = data;
       if (!$.isEmptyObject(gameData)) {
-        renderP1Cards(gameData);
-        renderP2Cards(gameData);
+        renderPlayerCards(gameData);
+        renderOpponentCards(gameData);
+        renderPrizeCard(gameData);
+        renderScore(gameData);
       } 
     },
     complete: (data) => {
@@ -34,20 +36,49 @@ function createP2CardElem(id) {
   return $card;
 }
 
-function renderP1Cards(data) {
+function renderPlayerCards(data) {
   const p1CardArea = $('.player1-cards');
   p1CardArea.html('');
-  data.p1Hand.forEach((card) => {
-    p1CardArea.append(createP1CardElem(card));
-  });
+  if (gameData.player1 === window.Cookies.get('username')) {
+    data.p1Hand.forEach((card) => {
+      p1CardArea.append(createP1CardElem(card));
+    });
+  } else if (gameData.player2 === window.Cookies.get('username')) {
+    data.p2Hand.forEach((card) => {
+      p1CardArea.append(createP1CardElem(card));
+    });
+  }
 }
 
-function renderP2Cards(data) {
+function renderOpponentCards(data) {
   const p2CardArea = $('.player2-cards');
   p2CardArea.html('');
-  data.p2Hand.forEach((card) => {
-    p2CardArea.append(createP2CardElem(card));
-  });
+  if (gameData.player1 === window.Cookies.get('username')) {
+    data.p2Hand.forEach((card) => {
+      p2CardArea.append(createP2CardElem(card));
+    });
+  } else if (gameData.player2 === window.Cookies.get('username')) {
+    data.p1Hand.forEach((card) => {
+      p2CardArea.append(createP2CardElem(card));
+    });
+  }
+}
+
+function renderPrizeCard(data) {
+  const prizeArea = $('.prize-cards');
+  prizeArea.html('');
+  prizeArea.append($('<div id="deck"><img src="/images/000.png" class="playing-card"></div>'));
+  prizeArea.append($(`<div id="prize"><img src="/images/1${('0' + data.prizes[0]).slice(-2)}.png" class="playing-card"></div>`));
+}
+
+function renderScore(data) {
+  if (gameData.player1 === window.Cookies.get('username')) {
+    $('#score').html('');
+    $('#score').append(gameData.p1Won.reduce((a, b) => a + b, 0));
+  } else if (gameData.player2 === window.Cookies.get('username')) {
+    $('#score').html('');
+    $('#score').append(gameData.p2Won.reduce((a, b) => a + b, 0));
+  }
 }
 
 $(document).ready(() => {
@@ -60,21 +91,37 @@ $(document).ready(() => {
   });
 
   $('#send-button').on('click', () => {
-    if ((gameData.player1 === window.Cookies.get('username') && !gameData.p1Sent) || (gameData.player2 === window.Cookies.get('username') && !gameData.p2Sent)) {
+    if (gameData.player1 === window.Cookies.get('username') && !gameData.p1Sent) {
+      $(`#${sent}`).addClass('hidden');
+      $('#send-button').addClass('hidden');
+
+      $.ajax({
+        type: 'POST',
+        url: `/api/goofspiel/${url}/nextturn`,
+        contentType: 'application/json',
+        data: JSON.stringify({
+          played: sent,
+          username: window.Cookies.get('username'),
+        }),
+        complete: () => console.log('p1 ajax sent'),
+      });
+    }
+    else if (gameData.player2 === window.Cookies.get('username') && !gameData.p2Sent) {
       $(`#${sent}`).addClass('hidden');
       $('#send-button').addClass('hidden');
       $.ajax({
         type: 'POST',
         url: `/api/goofspiel/${url}/nextturn`,
-        
+        contentType: 'application/json',
+        data: JSON.stringify({
+          played: sent,
+          username: window.Cookies.get('username'),
+        }),
+        complete: () => console.log('p2 ajax sent'),
       });
-      if (gameData.player1 === Cookies.get('username')) {
-        let index = gameData.p1Hand.indexOf(sent);
-        gameData.p1Hand.splice(index, 1);
-      } else if (gameData.player2 === Cookies.get('username')) {
-        let index = gameData.p2Hand.indexOf(sent);
-        gameData.p2Hand.splice(index, 1);
-      }
+    }
+    else {
+      alert('Please wait for your opponent!');
     }
   });
 });
