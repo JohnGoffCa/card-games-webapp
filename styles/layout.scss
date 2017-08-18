@@ -1,45 +1,99 @@
-body {
-  background-color: #EEE;
-  background-image: url("/images/wood.png");
-}
+$font-stack-headings: 'Berkshire Swash', cursive;
+$font-stack-normal: 'Open Sans', sans-serif;
+$red-color: #C9302C;
+$yellow-color: #FFBF00;
+$green-color: #449D44;
 
-body h1 {
-  color: #244751;
+/* Main page */
+body {
+  padding-top: 100px;
+  background-color: $green-color;
+  background-image: url("/images/wood.png");
+  color: #eee;
+  font-family: $font-stack-normal;
+
+  h1 {
+    color: #fff;
+    font-family: $font-stack-headings;
+    text-shadow: -1px 0 #180D01, 0 1px #180D01, 1px 0 #180D01, 0 -1px #180D01;
+  }
+
 }
 
 .banner-container {
   margin: auto;
   text-align: center;
   width: 800px;
+
+  .banner {
+    height: 500px;
+    padding: 8px;
+  }
 }
 
-.banner {
-  height: 500px;
-  padding: 8px;
-}
 
 .match-btn {
-  background-color: #C9302C;
-  border: 1px solid #000;
+  background-color: $red-color;
   border-radius: 8px;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
-  bottom: 0;
-  width: 250px;
+  width: 200px;
+
+  a {
+    color: #fff;
+    font-size: 22px;
+    text-decoration: none;
+  }
 }
 
-.match-btn a {
-  color: #fff;
-  font-size: 22px;
-  text-decoration: none;
+/* Navigation bar */
+.navbar {
+  background-color: $red-color;
 }
 
-.navbar-btn {
-  float: right;
+.navbar-brand {
+  font-family: $font-stack-headings;
 }
 
-.playing-card{
+/* New game page */
+.card{
+  background-color: $green-color;
+
+  .card-img-top {
+    padding-bottom: 20px;
+  }
+}
+
+/* Goofspiel */
+.game-title {
+  line-height: 4px;
+  text-align: center;
+}
+
+.game-board {
+  background: green; /* For browsers that do not support gradients */
+  background: -webkit-radial-gradient(green 30%, darkgreen 70%); /* Safari 5.1 to 6.0 */
+  background: -o-radial-gradient(green 30%, darkgreen 70%); /* For Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(green 30%, darkgreen 70%); /* For Firefox 3.6 to 15 */
+  background: radial-gradient(green 30%, darkgreen 70%); /* Standard syntax (must be last) */
+  border: 1px solid #180D01;
+  margin: auto;
+  width: 800px;
+
+  .prize-cards {
+    width: 150px;
+  }
+
+  .row {
+    margin: auto;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+
+}
+
+.playing-card {
   width: 50px;
   height: 80px;
   margin: 5px;
@@ -50,5 +104,5 @@ body h1 {
 }
 
 #send-button {
-  background-color: blue;
+  background-color: $red-color;
 }
