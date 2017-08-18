@@ -73,7 +73,7 @@ app.get('/game/goofspiel/:id', (req, res) => {
 
 app.get('/profile/:user', (req, res) => {
   // Search username or id on db
-  res.render('profile');
+  res.render('profile', {userId: req.params.user});
 });
 
 // Allow user to logout and clear cookie from server (should move to userroute)

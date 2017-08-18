@@ -3,10 +3,30 @@
 <head>
   <title>Matchmaking</title>
   <% include ./partials/_head %>
+  <script type="text/javascript" src="/scripts/profile.js"></script>
 </head>
 <body class="container">
   <header>
     <% include ./partials/_header %>
   </header>
-  <a>This is your user </a>
+  
+	  <article class="archived-game">
+      <table id="archives" style="background-color: white;">
+	      <tr>
+	        <th>Game</th>
+	        <th>Player 1</th>
+	        <th>Player 2</th>
+	        <th>Player 1 Score</th>
+	        <th>Player 2 Score</th>
+	      </tr>
+      </table>
+	  </article>
 </body>
+</html>
+
+<script>
+	 window.App = {
+	 	userId: <%= userId %>
+	 }
+</script>
+
