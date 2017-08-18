@@ -1,8 +1,8 @@
 const random = require('../helpers/random');
+const request = require('request');
 const express = require('express');
 const router  = express.Router();
 
-//const playersReady = {};
 global.playersReady = {};
 
 module.exports = () => {
