@@ -41,7 +41,7 @@ module.exports = () => {
 
       //add playersReady to gamesession and redirect to /game/goofspiel/:url
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`)
-      playersReady.goofspiel = {};
+      playersReady = {};
     }
   });
 
