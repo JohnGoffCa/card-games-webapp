@@ -12,17 +12,17 @@
     <h3 class="text-primary text-center">Goofspiel</h3>
     <div class="game-board">
 
-      <div class="row" class="player2-cards">
+      <div class="row player2-cards">
         <% for (let i = 1; i <= 13; i++) { %>
           <div id="p2_<%= i %>"><img src="/images/000.png" class="playing-card"></div>
         <% } %>
         </div>
-      </div>
-      <div class="row" class="prize-cards">
+
+      <div class="row prize-cards">
         <div id="deck"><img src="/images/000.png" class="playing-card"></div>
         <div id="prize"><img src="/images/000.png" class="playing-card"></div>
       </div>
-      <div class="row" class="player1-cards">
+      <div class="row player1-cards">
         <% for (let i = 1; i <= 13; i++) { %>
           <div id="<%= i %>"><img src="/images/0<%= ('00' + i).slice(-2) %>.png" class="playing-card"></div>
         <% } %>
