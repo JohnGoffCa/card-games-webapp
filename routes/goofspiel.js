@@ -39,6 +39,11 @@ module.exports = (knex) => {
         }
         currObj.p1Sent = false;
         currObj.p2Sent = false;
+
+        if (currObj.prizes.length === 0) {
+          console.log('gameover!');
+          res.send('gameover!');
+        }
       }
 
       res.sendStatus(201);
@@ -49,6 +54,3 @@ module.exports = (knex) => {
 
   return router;
 };
-
-// on the front end i get an entire object when i do ajax post
-// so i just have to read this.p1Hand
