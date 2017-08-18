@@ -1,7 +1,7 @@
 let sent = 0;
 let gameData = {};
 const url = window.location.pathname.slice(-6);
-const interval = 3000;
+const interval = 300;
 
 function recieveDataFromServer() {
   $.ajax({
@@ -10,10 +10,14 @@ function recieveDataFromServer() {
     success: (data) => {
       gameData = data;
       if (!$.isEmptyObject(gameData)) {
-        renderPlayerCards(gameData);
-        renderOpponentCards(gameData);
-        renderPrizeCard(gameData);
-        renderScore(gameData);
+        if (gameData.prizes.length !== 0) {
+          renderPlayerCards(gameData);
+          renderOpponentCards(gameData);
+          renderPrizeCard(gameData);
+          renderScore(gameData);
+        } else {
+          renderVictory(gameData);
+        }
       } 
     },
     complete: (data) => {
@@ -78,6 +82,25 @@ function renderScore(data) {
   } else if (gameData.player2 === window.Cookies.get('username')) {
     $('#score').html('');
     $('#score').append(gameData.p2Won.reduce((a, b) => a + b, 0));
+  }
+}
+
+function renderVictory(data) {
+  const p1Score = data.p1Won.reduce((a, b) => a + b, 0);
+  const p2Score = data.p2Won.reduce((a, b) => a + b, 0);
+  $('#victory').removeClass('hidden');
+  if (gameData.player1 === window.Cookies.get('username')) {
+    if (p1Score > p2Score) {
+      //display victory for p1
+    } else if (p1Score < p2Score) {
+      //p1 lost
+    }
+  } else if (gameData.player2 === window.Cookies.get('username')) {
+    if (p2Score > p1Score) {
+      //display victory for p2
+    } else if (p2Score < p1Score) {
+      //p2 lost
+    }
   }
 }
 
