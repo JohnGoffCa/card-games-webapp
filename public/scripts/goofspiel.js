@@ -91,14 +91,18 @@ function renderVictory(data) {
   $('#victory').removeClass('hidden');
   if (gameData.player1 === window.Cookies.get('username')) {
     if (p1Score > p2Score) {
+      console.log('winner')
       //display victory for p1
     } else if (p1Score < p2Score) {
+      console.log('loser')
       //p1 lost
     }
   } else if (gameData.player2 === window.Cookies.get('username')) {
     if (p2Score > p1Score) {
+      console.log('winner')
       //display victory for p2
     } else if (p2Score < p1Score) {
+      console.log('loser')
       //p2 lost
     }
   }

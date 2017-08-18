@@ -11,69 +11,63 @@ let knex = require('knex')({
 	  ssl      : process.env.DB_SSL
 	}
 });
-
-
-function findUser(username) {
-	return knex('users').where({
-    username: username
-	})
-	.select('id')
-	.then((results)=>{
-		if(results.length > 0) {
-			results.forEach((result)=>{
-	      console.log(result.id)
+module.exports = (knex) => {
+	return {
+		findUser: function (username) {
+			return knex('users').where({
+		    username: username
 			})
-			return results;
-		} else {
-			console.log("Not found");
-		}
+			.select('id')
+			.then((results)=>{
+				if(results.length > 0) {
+					results.forEach((result)=>{
+			      console.log(result.id)
+					})
+					return results;
+				} else {
+					console.log("Not found");
+				}
 
-	}).catch((err) => {
-		console.log(err);
-	})
-	.finally(function () {
-    return knex.destroy();
-  })
-}
+			}).catch((err) => {
+				console.log(err);
+			})
+			.finally(function () {
+		    return knex.destroy();
+		  })
+		},
+
+		addPlayersToGame: function(player1_id, player2_id, url){
+			return knex('gamesessions').insert({player1_id: player1_id, player2_id: player2_id, url: url})
+			       .then((result) => {
+			       	console.log('success')
+			       })
+		},
 
 
-var user = null
-findUser('Bob')
-	.then(function(data) {
-		user = data
-	})
+		findUsersGames: function (user_id){
+			return knex.select('url').from('gamesessions')
+			       .whereIn(user_id, function(){
+			       	this.select('player1_id').from('gamesessions')
+			       }).orWhereIn(user_id, function(){
+			       	this.select('player2_id').from('gamesessions')
+			       }).then((result) => {console.log(result)})
+		},
 
-//ask about using promises to get data
-// function insert(obj) {
-// 	return knex('').insert(...);
-// }
 
-// findUser('Bob').then((results) => {
-// 	var obj = {..}
-// 	return insert(obj);
-// }).then(() => {
+		findUsersArchive: function(user_id){
+			return knex.select('*').from('gamesessions')
+			       .whereIn(user_id, function(){
+			       	this.select('player1_id').from('gamesessions')
+			       }).orWhereIn(user_id, function(){
+			       	this.select('player2_id').from('gamesessions')
+			       }).then((result) => {console.log(result)})
+		},
 
-function addPlayersToGame(player1_id, player2_id, url){
-	return knex('gamesessions').insert({player1_id: player1_id, player2_id: player2_id, url: url})
-	       .then((result) => {
-	       	console.log('success')
-	       })
-}
-//addPlayersToGame(1, 2, 'xyz')
-
-function findUsersGames(user_id){
-	return knex.select('url').from('gamesessions')
-	       .whereIn(user_id, function(){
-	       	this.select('player1_id').from('gamesessions')
-	       }).orWhereIn(user_id, function(){
-	       	this.select('player2_id').from('gamesessions')
-	       }).then((result) => {console.log(result)})
-}
-//findUsersGames(1)
-
-function findUserWins(user_id){
-	return knex('gamesessions').count('winner_id')
-	       .whereIn(user_id, function(){
-	       	this.select('winner_id').from('gamesessions')
-	       }).then((result) => {console.log(result)})
+		findUserWins: function(user_id){
+			return knex('gamesessions').count('winner_id')
+			       .whereIn(user_id, function(){
+			       	this.select('winner_id').from('gamesessions')
+			       }).then((result) => {console.log(result)})
+		},
+  }
 }
