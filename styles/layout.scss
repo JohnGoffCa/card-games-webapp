@@ -18,6 +18,11 @@ body {
     text-shadow: -1px 0 #180D01, 0 1px #180D01, 1px 0 #180D01, 0 -1px #180D01;
   }
 
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+
 }
 
 .banner-container {
@@ -41,15 +46,14 @@ body {
   width: 200px;
 
   a {
-    color: #fff;
     font-size: 22px;
-    text-decoration: none;
   }
 }
 
 /* Navigation bar */
 .navbar {
   background-color: $red-color;
+
 }
 
 .navbar-brand {
@@ -106,4 +110,10 @@ body {
 
 #send-button {
   background-color: $red-color;
+}
+
+#notifications {
+  list-style: none;
+  font-size: 22px;
+
 }
