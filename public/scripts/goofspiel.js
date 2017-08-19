@@ -9,22 +9,21 @@ function recieveDataFromServer() {
     type: 'GET',
     success: (data) => {
       gameData = data;
-      if (!$.isEmptyObject(gameData)) {
-        if (gameData.prizes.length !== 0) {
-          renderPlayerCards(gameData);
-          renderOpponentCards(gameData);
-          renderPrizeCard(gameData);
-          renderScore(gameData);
-        } else {
-          renderVictory(gameData);
-        }
+      if (!$.isEmptyObject(gameData) && gameData.prizes.length !== 0) {
+        renderPlayerCards(gameData);
+        renderOpponentCards(gameData);
+        renderPrizeCard(gameData);
+        renderScore(gameData);
       } 
     },
     complete: (data) => {
-      setTimeout(recieveDataFromServer, interval);
+      if (!$.isEmptyObject(data) && data.prizes.length === 0) {
+        renderVictory(gameData);
+      } else {
+        setTimeout(recieveDataFromServer, interval);
+      }
     },
   });
-}
 
 function createP1CardElem(id) {
   const $card = $(`
@@ -78,20 +77,47 @@ function renderPrizeCard(data) {
 function renderScore(data) {
   if (gameData.player1 === window.Cookies.get('username')) {
     $('#score').html('');
-    $('#score').append(gameData.p1Won.reduce((a, b) => a + b, 0));
+    $('#score').append(calculateScore(1));
   } else if (gameData.player2 === window.Cookies.get('username')) {
     $('#score').html('');
-    $('#score').append(gameData.p2Won.reduce((a, b) => a + b, 0));
+    $('#score').append(calculateScore(2));
   }
 }
+function calculateScore(playerId){
+  const handsWon = gameData[`p${playerId}Won`];
+  return handsWon ? handsWon.reduce((a, b) => a + b, 0) : 0;
+}
 
-function renderVictory(data) {
-  const p1Score = data.p1Won.reduce((a, b) => a + b, 0);
-  const p2Score = data.p2Won.reduce((a, b) => a + b, 0);
+function saveGameResults(){
+  const p1Score = calculateScore(1);
+  const p2Score = calculateScore(2);
+  console.log('HEYEHYEHEYHEYEH')
+  // if (p1Score > p2Score){
+    $.ajax({
+      type: 'POST',
+      url: `/api/goofspiel/${url}/save`,
+      data: {
+        p1Score: p1Score,
+        p2Score: p2Score,
+        player1: gameData.player1,
+        player2: gameData.player2,
+      }
+    });
+  // } else if (p1Score < p2Score){
+  //   return;
+  // };
+};
+
+
+
+function renderVictory() {
+  const p1Score = calculateScore(1);
+  const p2Score = calculateScore(2);
   $('#victory').removeClass('hidden');
   if (gameData.player1 === window.Cookies.get('username')) {
     if (p1Score > p2Score) {
       console.log('winner')
+      saveGameResults();
       //display victory for p1
     } else if (p1Score < p2Score) {
       console.log('loser')
@@ -100,6 +126,7 @@ function renderVictory(data) {
   } else if (gameData.player2 === window.Cookies.get('username')) {
     if (p2Score > p1Score) {
       console.log('winner')
+      saveGameResults();
       //display victory for p2
     } else if (p2Score < p1Score) {
       console.log('loser')

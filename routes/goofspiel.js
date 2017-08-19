@@ -5,6 +5,18 @@ const router  = express.Router();
 global.goofObj = {};
 
 module.exports = (knex) => {
+  router.post('/:id/save', (req, res) => {
+    console.log(req.body, '$$$$$$$$$$$$$ games')
+    knex('gamesessions')
+    .insert({player1_id: 1, 
+      player2_id: 2, 
+      p1_finalscore: req.body.p1Score,
+      p2_finalscore: req.body.p2Score,
+    }).then((result)=>{
+        res.status(204).end();
+    })
+  })
+
   router.get('/:id', (req, res) => {
     res.send(global.goofObj[req.params.id]);
   });
