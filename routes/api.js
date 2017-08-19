@@ -5,16 +5,19 @@ const router  = express.Router();
 global.goofObj = {};
 
 module.exports = () => {
-  router.get('/:id', (req, res) => {
+  ////////////////////////////////////
+  /** Start of Goofspiel API routes */
+  ////////////////////////////////////
+  router.get('/goofspiel/:id', (req, res) => {
     res.send(global.goofObj[req.params.id]);
   });
 
-  router.post('/:id', (req, res) => {
+  router.post('/goofspiel/:id', (req, res) => {
     initGoofData(global.goofObj[req.params.id], req.body.player1, req.body.player2);
     res.sendStatus(201);
   });
 
-  router.post('/:id/nextturn', (req, res) => {
+  router.post('/goofspiel/:id/nextturn', (req, res) => {
     const currObj = global.goofObj[req.params.id];
     if (currObj) {
       if (req.body.username === currObj.player1) {
@@ -51,6 +54,12 @@ module.exports = () => {
       res.status(403).send('no game by that id yet exists');
     }
   });
+
+  /** End of Goofspiel API routes */
+
+  ////////////////////////////////////
+  /** Start of Blackjack API routes */
+  ////////////////////////////////////
 
   return router;
 };
