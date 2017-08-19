@@ -4,7 +4,7 @@ const router  = express.Router();
 
 global.goofObj = {};
 
-module.exports = (knex) => {
+module.exports = () => {
   router.get('/:id', (req, res) => {
     res.send(global.goofObj[req.params.id]);
   });

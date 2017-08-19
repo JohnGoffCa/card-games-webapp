@@ -1,10 +1,8 @@
 const random = require('../helpers/random');
 const initGoofData = require('../helpers/initGoofDatabase');
-const request = require('request');
 const express = require('express');
 const router  = express.Router();
 
-//global.playersReady = {};
 let playersReady = {};
 
 module.exports = () => {

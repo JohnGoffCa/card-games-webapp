@@ -16,8 +16,9 @@ const knexLogger  = require('knex-logger');
 
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
-const goofspielRoutes = require('./routes/goofspiel');
+const apiRoutes = require('./routes/api');
 const newgameRoutes = require('./routes/newgame');
+const gameRoutes = require('./routes/game');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -42,8 +43,9 @@ app.use(express.static('public'));
 
 // Mount all resource routes
 app.use('/', usersRoutes(knex));
-app.use('/api/goofspiel', goofspielRoutes(knex));
+app.use('/api', apiRoutes());
 app.use('/newgame', newgameRoutes());
+app.use('/game', gameRoutes());
 
 // Use cookie-parser to create a simple login mockup
 var cookieParser = require('cookie-parser');
@@ -64,14 +66,6 @@ app.get('/', (req, res) => {
 
 app.get("/login", (req, res) => {
   res.render('login');
-});
-
-app.get('/game/goofspiel/:id', (req, res) => {
-  // Search game id on db
-  let templateVars = {
-    username: req.cookies.username
-  };
-  res.render('goofspiel', templateVars);
 });
 
 app.get('/profile/:user', (req, res) => {
