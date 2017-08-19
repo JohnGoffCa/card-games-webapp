@@ -24,6 +24,7 @@ function recieveDataFromServer() {
       }
     },
   });
+};
 
 function createP1CardElem(id) {
   const $card = $(`

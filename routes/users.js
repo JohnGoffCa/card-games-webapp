@@ -10,15 +10,17 @@ module.exports = (knex) => {
   //verify login
   router.post('/login', (req, res) => {
     knex
-      .select('username')
+      .select('username', 'id')
       .from('users')
       .where({
         username: req.body.username,
         //can add password authentication here
       })
       .then(results => {
+        console.log(results)
         if(results.length > 0) {
           res.cookie('username', req.body.username);
+          res.cookie('user_id', results[0].id);
           res.redirect('/');
         } else {
           res.redirect('/login');

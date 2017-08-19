@@ -21,6 +21,25 @@ const loadArchive = () => {
 	})
 }
 
+function createGameLinkElement(gameLink){
+	return `
+		<div id="game-link">
+	    <a href="#">GAME LINK!</a>
+	  </div>`
+}
+
+const renderGameLinks = (link) => {
+	const links = data.map(createGameLinkElement)
+	const html = links.reverse().join('')
+	$('#game-link').append(html)
+}
+
+const loadLinks = () => {
+	$.get(`/profile/${ App.userId }/json`, function(links){
+		renderGameLinks(links)
+	})
+}
+
 $(function(){
   loadArchive()
 })
