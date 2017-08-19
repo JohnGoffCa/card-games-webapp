@@ -117,13 +117,15 @@ function showNotification(contentObj) {
   const msg = contentObj.msg;
   const type = contentObj.type;
 
-  const newNotification = `<li class="notification">${msg}</li>`
+  const newNotification = `<li class="notification">${msg} <a href="/newgame">Play again!</a></li>`
 
   let notifications = $('#notifications').html('').append(newNotification);
 
+/*
   setTimeout(function () {
     notifications.html('');
   }, 5000)
+  */
 }
 
 $(document).ready(() => {
