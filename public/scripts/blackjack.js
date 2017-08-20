@@ -93,4 +93,56 @@ $(document).ready(function () {
   let timer = setTimeout(function () {
     recieveDataFromServer(timer);
   }, interval);
+
+  // CLICK HANDLERS //
+  $('#hit-button').on('click', () => {
+    if (gameData.player1 === window.Cookies.get('username') && gameData.p1In) {
+      $.ajax({
+        type: 'POST',
+        url: `/api/blackjack/${url}/hit`,
+        contentType: 'application/json',
+        data: JSON.stringify({
+          username: window.Cookies.get('username'),
+        }),
+      });
+    } else if (gameData.player2 === window.Cookies.get('username') && gameData.p2In) {
+      $.ajax({
+        type: 'POST',
+        url: `/api/blackjack/${url}/hit`,
+        contentType: 'application/json',
+        data: JSON.stringify({
+          username: window.Cookies.get('username'),
+        }),
+      });
+    }
+    else {
+      alert('Please wait for your opponent!');
+    }
+  });
+
+  $('#stand-button').on('click', () => {
+    if (gameData.player1 === window.Cookies.get('username') && gameData.p1In) {
+      $.ajax({
+        type: 'POST',
+        url: `/api/blackjack/${url}/stand`,
+        contentType: 'application/json',
+        data: JSON.stringify({
+          username: window.Cookies.get('username'),
+        }),
+      });
+    } else if (gameData.player2 === window.Cookies.get('username') && gameData.p2In) {
+      $.ajax({
+        type: 'POST',
+        url: `/api/blackjack/${url}/stand`,
+        contentType: 'application/json',
+        data: JSON.stringify({
+          username: window.Cookies.get('username'),
+        }),
+      });
+    }
+    else {
+      alert('Please wait for your opponent!');
+    }
+  });
+  // END OF CLICK HANDLERS //
 });

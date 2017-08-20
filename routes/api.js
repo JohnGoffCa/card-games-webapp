@@ -79,11 +79,13 @@ module.exports = () => {
     const currObj = global.jackObj[req.params.id];
     if (currObj) {
       if (req.body.username === currObj.player1) {
+        console.log('p1 hit');
         currObj.p1Hand.push(currObj.deck.pop());
         if (blackjack.handValue(currObj.p1Hand) >= 21) {
           currObj.p1In = false;
         }
       } else if (req.body.username === currObj.player2) {
+        console.log('p2 hit');
         currObj.p2Hand.push(currObj.deck.pop());
         if (blackjack.handValue(currObj.p2Hand) >= 21) {
           currObj.p2In = false;
@@ -106,7 +108,7 @@ module.exports = () => {
       }
 
       if (!currObj.p2In && !currObj.p1In) {
-
+        console.log('both out');
       }
 
       res.sendStatus(201);
