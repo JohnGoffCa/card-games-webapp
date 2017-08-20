@@ -42,7 +42,35 @@ module.exports = () => {
 
       //add playersReady to gamesession and redirect to /game/goofspiel/:url
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`)
-      playersReady = {};
+      playersReady.goofspiel = null;
+    }
+  });
+
+  router.post('/blackjack', (req, res) => {
+    if (!playersReady.blackjack) {
+      playersReady.blackjack = {
+        player1: req.cookies.username,
+        player2: null,
+        url: random(),
+      };
+
+      console.log("player1 is ready", playersReady);
+      res.redirect(`/game/blackjack/${playersReady.blackjack.url}`);
+
+    } else if (playersReady.blackjack.player1 === req.cookies.username) {
+      console.log("you are already player1")
+      res.redirect(`/game/blackjack/${playersReady.blackjack.url}`);
+      return;
+
+    } else {
+      playersReady.blackjack.player2 = req.cookies.username;
+      console.log("who is player2?", playersReady);
+      //connect to api endpoint to create in memory object
+      initJackData(playersReady.blackjack.url, playersReady.blackjack.player1, playersReady.blackjack.player2);
+
+      //add playersReady to gamesession and redirect to /game/blackjack/:url
+      res.redirect(`/game/blackjack/${playersReady.blackjack.url}`)
+      playersReady.blackjack = null;
     }
   });
 

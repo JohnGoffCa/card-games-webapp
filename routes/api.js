@@ -3,6 +3,7 @@ const express = require('express');
 const router  = express.Router();
 
 global.goofObj = {};
+global.jackObj = {};
 
 module.exports = () => {
   ////////////////////////////////////
@@ -60,6 +61,42 @@ module.exports = () => {
   ////////////////////////////////////
   /** Start of Blackjack API routes */
   ////////////////////////////////////
+
+  router.get('/blackjack/:id', (req, res) => {
+    res.send(global.jackObj[req.params.id]);
+  });
+
+  router.post('/blackjack/:id', (req, res) => {
+    initJackData(global.jackObj[req.params.id], req.body.player1, req.body.player2);
+    for (let i = 0; i < 2; i++) {
+      global.jackObj[req.params.id].p1Hand.push(global.jackObj[req.params.id].deck.pop());
+      global.jackObj[req.params.id].p2Hand.push(global.jackObj[req.params.id].deck.pop());
+      global.jackObj[req.params.id].dealerHand.push(global.jackObj[req.params.id].deck.pop());
+    }
+    res.sendStatus(201);
+  });
+
+  router.post('/blackjack/:id/nextturn', (req, res) => {
+    const currObj = global.jackObj[req.params.id];
+    if (currObj) {
+      if (req.body.username === currObj.player1) {
+
+      } else if (req.body.username === currObj.player2) {
+
+      }
+
+      if (currObj.p2Sent && currObj.p1Sent) {
+
+        currObj.p1Sent = false;
+        currObj.p2Sent = false;
+
+      }
+
+      res.sendStatus(201);
+    } else {
+      res.status(403).send('no game by that id yet exists');
+    }
+  });
 
   return router;
 };
