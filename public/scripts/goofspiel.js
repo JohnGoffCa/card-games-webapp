@@ -120,12 +120,6 @@ function showNotification(contentObj) {
   const newNotification = `<li class="notification">${msg} <a href="/newgame">Play again!</a></li>`
 
   let notifications = $('#notifications').html('').append(newNotification);
-
-/*
-  setTimeout(function () {
-    notifications.html('');
-  }, 5000)
-  */
 }
 
 $(document).ready(() => {
@@ -171,4 +165,5 @@ $(document).ready(() => {
       alert('Please wait for your opponent!');
     }
   });
+  // END OF CLICK HANDLERS //
 });

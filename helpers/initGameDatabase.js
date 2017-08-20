@@ -8,7 +8,7 @@ const deck = [
 ];
 
 module.exports = {
-  initGoofData: (id, p1, p2) => {
+  goofData: (id, p1, p2) => {
     global.goofObj[id] = {
       // player1: req.body.player1,
       // comes from the json sent from newgame, uses body parser to make it available
@@ -25,7 +25,7 @@ module.exports = {
       prizes: shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]),
     };
   },
-  initJackData: (id, p1, p2) => {
+  jackData: (id, p1, p2) => {
     global.jackObj[id] = {
       // player1: req.body.player1,
       // comes from the json sent from newgame, uses body parser to make it available
@@ -39,8 +39,13 @@ module.exports = {
       p2Sent: false,
       p2In: true,
       p2Hand: [],
-      dealerHand[],
+      dealerHand: [],
       deck: shuffle(deck),
     };
+    for (let i = 0; i < 2; i++) {
+      global.jackObj[id].p1Hand.push(global.jackObj[id].deck.pop());
+      global.jackObj[id].p2Hand.push(global.jackObj[id].deck.pop());
+      global.jackObj[id].dealerHand.push(global.jackObj[id].deck.pop());
+    }
   },
 };

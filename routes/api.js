@@ -1,4 +1,5 @@
-const initGoofData = require('../helpers/initGoofDatabase');
+const init = require('../helpers/initGameDatabase');
+const blackjack = require('../helpers/blackjack');
 const express = require('express');
 const router  = express.Router();
 
@@ -14,7 +15,7 @@ module.exports = () => {
   });
 
   router.post('/goofspiel/:id', (req, res) => {
-    initGoofData(global.goofObj[req.params.id], req.body.player1, req.body.player2);
+    init.goofData(global.goofObj[req.params.id], req.body.player1, req.body.player2);
     res.sendStatus(201);
   });
 
@@ -67,12 +68,7 @@ module.exports = () => {
   });
 
   router.post('/blackjack/:id', (req, res) => {
-    initJackData(global.jackObj[req.params.id], req.body.player1, req.body.player2);
-    for (let i = 0; i < 2; i++) {
-      global.jackObj[req.params.id].p1Hand.push(global.jackObj[req.params.id].deck.pop());
-      global.jackObj[req.params.id].p2Hand.push(global.jackObj[req.params.id].deck.pop());
-      global.jackObj[req.params.id].dealerHand.push(global.jackObj[req.params.id].deck.pop());
-    }
+    init.jackData(global.jackObj[req.params.id], req.body.player1, req.body.player2);
     res.sendStatus(201);
   });
 
@@ -97,6 +93,8 @@ module.exports = () => {
       res.status(403).send('no game by that id yet exists');
     }
   });
+
+  /** End of Blackjack API routes */
 
   return router;
 };
