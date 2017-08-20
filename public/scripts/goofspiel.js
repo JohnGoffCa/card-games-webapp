@@ -92,10 +92,9 @@ function calculateScore(playerId){
   return handsWon ? handsWon.reduce((a, b) => a + b, 0) : 0;
 }
 
-function saveGameResults(){
+function saveGameResults(winnerId){
   const p1Score = calculateScore(gameData.player1);
   const p2Score = calculateScore(gameData.player2);
-  console.log('HEYEHYEHEYHEYEH')
 
     $.ajax({
       type: 'POST',
@@ -105,6 +104,7 @@ function saveGameResults(){
         p2Score: p2Score,
         player1: gameData.player1,
         player2: gameData.player2,
+        winner: winnerId
       }
     });
 };
@@ -117,7 +117,7 @@ function renderVictory() {
 
     if (p1Score > p2Score) {
       console.log('winner')
-      saveGameResults();
+      saveGameResults(gameData.player1);
       //display victory for p1
       showNotification({ msg: "You won!" })
     } else if (p1Score < p2Score) {
@@ -128,7 +128,7 @@ function renderVictory() {
   } else if (gameData.player2 === window.Cookies.get('user_id')) {
     if (p2Score > p1Score) {
       console.log('winner')
-      saveGameResults();
+      saveGameResults(gameData.player2);
       //display victory for p2
       showNotification({ msg: "You won!" })
     } else if (p2Score < p1Score) {
