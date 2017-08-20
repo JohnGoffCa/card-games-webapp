@@ -30,20 +30,19 @@ module.exports = {
       // player1: req.body.player1,
       // comes from the json sent from newgame, uses body parser to make it available
       player1: p1,
-      p1Sent: false,
       p1In: true,
       p1Hand: [],
       p1HandValue: 0,
       //player2: req.body.player2,
       //same as above
       player2: p2,
-      p2Sent: false,
       p2In: true,
       p2Hand: [],
       p2HandValue: 0,
       dealerHand: [],
       deck: shuffle(deck),
     };
+    // deal first 2 cards to everybody
     for (let i = 0; i < 2; i++) {
       global.jackObj[id].p1Hand.push(global.jackObj[id].deck.pop());
       global.jackObj[id].p2Hand.push(global.jackObj[id].deck.pop());

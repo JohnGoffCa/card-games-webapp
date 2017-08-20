@@ -11,7 +11,7 @@ module.exports = () => {
   /** Start of Goofspiel API routes */
   ////////////////////////////////////
   router.get('/goofspiel/:id', (req, res) => {
-    res.send(global.goofObj[req.params.id]);
+    res.send(global.goofObj[req.params.id] || {});
   });
 
   router.post('/goofspiel/:id', (req, res) => {
@@ -75,19 +75,37 @@ module.exports = () => {
     res.sendStatus(201);
   });
 
-  router.post('/blackjack/:id/nextturn', (req, res) => {
+  router.post('/blackjack/:id/hit', (req, res) => {
     const currObj = global.jackObj[req.params.id];
     if (currObj) {
       if (req.body.username === currObj.player1) {
-
+        currObj.p1Hand.push(currObj.deck.pop());
+        if (blackjack.handValue(currObj.p1Hand) >= 21) {
+          currObj.p1In = false;
+        }
       } else if (req.body.username === currObj.player2) {
-
+        currObj.p2Hand.push(currObj.deck.pop());
+        if (blackjack.handValue(currObj.p2Hand) >= 21) {
+          currObj.p2In = false;
+        }
       }
 
-      if (currObj.p2Sent && currObj.p1Sent) {
+      res.sendStatus(201);
+    } else {
+      res.status(403).send('no game by that id yet exists');
+    }
+  });
 
-        currObj.p1Sent = false;
-        currObj.p2Sent = false;
+  router.post('/blackjack/:id/stand', (req, res) => {
+    const currObj = global.jackObj[req.params.id];
+    if (currObj) {
+      if (req.body.username === currObj.player1) {
+        currObj.p1In = false;
+      } else if (req.body.username === currObj.player2) {
+        currObj.p2In = false;
+      }
+
+      if (!currObj.p2In && !currObj.p1In) {
 
       }
 
