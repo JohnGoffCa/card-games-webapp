@@ -3,7 +3,7 @@ let gameData = {};
 const url = window.location.pathname.slice(-6);
 const interval = 300;
 
-function recieveDataFromServer() {
+function recieveDataFromServer(timer) {
   $.ajax({
     url: `/api/goofspiel/${url}`,
     type: 'GET',
@@ -21,7 +21,10 @@ function recieveDataFromServer() {
       }
     },
     complete: (data) => {
-      setTimeout(recieveDataFromServer, interval);
+      timer = setTimeout(recieveDataFromServer, interval);
+      if (!$.isEmptyObject(data.responseJSON) && data.responseJSON.prizes.length === 0) {
+        clearTimeout(timer);
+      }
     },
   });
 }
@@ -43,11 +46,11 @@ function createP2CardElem(id) {
 function renderPlayerCards(data) {
   const p1CardArea = $('.player1-cards');
   p1CardArea.html('');
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     data.p1Hand.forEach((card) => {
       p1CardArea.append(createP1CardElem(card));
     });
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     data.p2Hand.forEach((card) => {
       p1CardArea.append(createP1CardElem(card));
     });
@@ -57,11 +60,11 @@ function renderPlayerCards(data) {
 function renderOpponentCards(data) {
   const p2CardArea = $('.player2-cards');
   p2CardArea.html('');
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     data.p2Hand.forEach((card) => {
       p2CardArea.append(createP2CardElem(card));
     });
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     data.p1Hand.forEach((card) => {
       p2CardArea.append(createP2CardElem(card));
     });
@@ -76,22 +79,45 @@ function renderPrizeCard(data) {
 }
 
 function renderScore(data) {
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     $('#score').html('');
-    $('#score').append(gameData.p1Won.reduce((a, b) => a + b, 0));
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+    $('#score').append(calculateScore(gameData.player1));
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     $('#score').html('');
-    $('#score').append(gameData.p2Won.reduce((a, b) => a + b, 0));
+    $('#score').append(calculateScore(gameData.player2));
   }
 }
+function calculateScore(playerId){
+  const handsWon = gameData[`p${playerId}Won`];
+  return handsWon ? handsWon.reduce((a, b) => a + b, 0) : 0;
+}
 
-function renderVictory(data) {
-  const p1Score = data.p1Won.reduce((a, b) => a + b, 0);
-  const p2Score = data.p2Won.reduce((a, b) => a + b, 0);
-  // $('#victory').removeClass('hidden');
-  if (gameData.player1 === window.Cookies.get('username')) {
+function saveGameResults(){
+  const p1Score = calculateScore(gameData.player1);
+  const p2Score = calculateScore(gameData.player2);
+  console.log('HEYEHYEHEYHEYEH')
+
+    $.ajax({
+      type: 'POST',
+      url: `/api/goofspiel/${url}/save`,
+      data: {
+        p1Score: p1Score,
+        p2Score: p2Score,
+        player1: gameData.player1,
+        player2: gameData.player2,
+      }
+    });
+};
+
+function renderVictory() {
+  const p1Score = calculateScore(gameData.player1);
+  const p2Score = calculateScore(gameData.player2);
+  $('#victory').removeClass('hidden');
+  if (gameData.player1 === window.Cookies.get('user_id')) {
+
     if (p1Score > p2Score) {
       console.log('winner')
+      saveGameResults();
       //display victory for p1
       showNotification({ msg: "You won!" })
     } else if (p1Score < p2Score) {
@@ -99,9 +125,10 @@ function renderVictory(data) {
       //p1 lost
       showNotification({ msg: "You lost!" })
     }
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     if (p2Score > p1Score) {
       console.log('winner')
+      saveGameResults();
       //display victory for p2
       showNotification({ msg: "You won!" })
     } else if (p2Score < p1Score) {
@@ -129,7 +156,9 @@ function showNotification(contentObj) {
 }
 
 $(document).ready(() => {
-  setTimeout(recieveDataFromServer, interval);
+  let timer = setTimeout(function () {
+    recieveDataFromServer(timer);
+  }, interval);
 
   // CLICK HANDLERS //
   $('.player1-cards').on('click', 'div', (e) => {
@@ -138,7 +167,7 @@ $(document).ready(() => {
   });
 
   $('#send-button').on('click', () => {
-    if (gameData.player1 === window.Cookies.get('username') && !gameData.p1Sent) {
+    if (gameData.player1 === window.Cookies.get('user_id') && !gameData.p1Sent) {
       $(`#${sent}`).addClass('hidden');
       $('#send-button').addClass('hidden');
 
@@ -148,12 +177,12 @@ $(document).ready(() => {
         contentType: 'application/json',
         data: JSON.stringify({
           played: sent,
-          username: window.Cookies.get('username'),
+          username: window.Cookies.get('user_id'),
         }),
         complete: () => console.log('p1 ajax sent'),
       });
     }
-    else if (gameData.player2 === window.Cookies.get('username') && !gameData.p2Sent) {
+    else if (gameData.player2 === window.Cookies.get('user_id') && !gameData.p2Sent) {
       $(`#${sent}`).addClass('hidden');
       $('#send-button').addClass('hidden');
       $.ajax({
@@ -162,7 +191,7 @@ $(document).ready(() => {
         contentType: 'application/json',
         data: JSON.stringify({
           played: sent,
-          username: window.Cookies.get('username'),
+          username: window.Cookies.get('user_id'),
         }),
         complete: () => console.log('p2 ajax sent'),
       });
