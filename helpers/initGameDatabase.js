@@ -40,6 +40,7 @@ module.exports = {
       p2Hand: [],
       p2HandValue: 0,
       dealerHand: [],
+      dealerHandValue: 0,
       deck: shuffle(deck),
     };
     // deal first 2 cards to everybody

@@ -80,6 +80,7 @@ module.exports = () => {
     const currObj = global.jackObj[req.params.id];
     currObj.p1HandValue = blackjack.handValue(currObj.p1Hand);
     currObj.p2HandValue = blackjack.handValue(currObj.p2Hand);
+    currObj.dealerHandValue = blackjack.handValue(currObj.dealerHand);
     res.send(currObj);
   });
 

@@ -6,7 +6,7 @@ function recieveDataFromServer(timer) {
   $.ajax({
     url: `/api/blackjack/${url}`,
     type: 'GET',
-    success: (data) => {
+    success: function (data) {
       gameData = data;
       if (!$.isEmptyObject(gameData)) {
         renderPlayerCards(gameData);
@@ -15,13 +15,31 @@ function recieveDataFromServer(timer) {
         renderScore(gameData);
       }
     },
-    complete: (data) => {
-      timer = setTimeout(recieveDataFromServer, interval);
+    complete: function (data) {
+      timer = setTimeout(function () {
+        recieveDataFromServer(timer);
+      }, interval);
       if (!$.isEmptyObject(data.responseJSON) && (!data.responseJSON.p1In && !data.responseJSON.p2In)) {
         clearTimeout(timer);
+        hideButtons();
+        dealerPlay(data.responseJSON);
       }
     },
   });
+  if (gameData.player1 === window.Cookies.get('user_id') && !gameData.p1In) {
+    hideButtons();
+  } else if (gameData.player2 === window.Cookies.get('user_id') && !gameData.p2In) {
+    hideButtons();
+  }
+}
+
+function hideButtons() {
+  if (!$('#hit-button').hasClass('hidden')) {
+    $('#hit-button').addClass('hidden');
+  }
+  if (!$('#stand-button').hasClass('hidden')) {
+    $('#stand-button').addClass('hidden');
+  }
 }
 
 function createCardElem(id) {
@@ -35,11 +53,11 @@ function renderPlayerCards(data) {
   const p1CardArea = $('.player1-cards');
   p1CardArea.html('');
   if (gameData.player1 === window.Cookies.get('user_id')) {
-    data.p1Hand.forEach((card) => {
+    data.p1Hand.forEach(function (card) {
       p1CardArea.append(createCardElem(card));
     });
   } else if (gameData.player2 === window.Cookies.get('user_id')) {
-    data.p2Hand.forEach((card) => {
+    data.p2Hand.forEach(function (card) {
       p1CardArea.append(createCardElem(card));
     });
   }
@@ -50,11 +68,11 @@ function renderOpponentCards(data) {
   const p2CardArea = $('.player2-cards');
   p2CardArea.html('');
   if (gameData.player1 === window.Cookies.get('user_id')) {
-    data.p2Hand.forEach((card) => {
+    data.p2Hand.forEach(function (card) {
       p2CardArea.append(createCardElem(card));
     });
   } else if (gameData.player2 === window.Cookies.get('user_id')) {
-    data.p1Hand.forEach((card) => {
+    data.p1Hand.forEach(function (card) {
       p2CardArea.append(createCardElem(card));
     });
   }
@@ -69,10 +87,14 @@ function renderDealerCards(data, show) {
   } else {
     dealerArea.append(createCardElem(000));
   }
-  data.dealerHand.splice(0, 1).forEach((card) => {
+  data.dealerHand.splice(0, 1).forEach(function (card) {
     dealerArea.append(createCardElem(card));
   });
   dealerArea.append('<div id="dealer-score"></div>');
+}
+
+function dealerPlay(data) {
+  while (
 }
 
 function renderScore(data) {
@@ -95,7 +117,7 @@ $(document).ready(function () {
   }, interval);
 
   // CLICK HANDLERS //
-  $('#hit-button').on('click', () => {
+  $('#hit-button').on('click', function () {
     if (gameData.player1 === window.Cookies.get('user_id') && gameData.p1In) {
       $.ajax({
         type: 'POST',
@@ -114,13 +136,12 @@ $(document).ready(function () {
           username: window.Cookies.get('user_id'),
         }),
       });
-    }
-    else {
+    } else {
       alert('Please wait for your opponent!');
     }
   });
 
-  $('#stand-button').on('click', () => {
+  $('#stand-button').on('click', function () {
     if (gameData.player1 === window.Cookies.get('user_id') && gameData.p1In) {
       $.ajax({
         type: 'POST',
@@ -139,8 +160,7 @@ $(document).ready(function () {
           username: window.Cookies.get('user_id'),
         }),
       });
-    }
-    else {
+    } else {
       alert('Please wait for your opponent!');
     }
   });
