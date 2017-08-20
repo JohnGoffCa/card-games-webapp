@@ -3,28 +3,31 @@ let gameData = {};
 const url = window.location.pathname.slice(-6);
 const interval = 300;
 
-function recieveDataFromServer() {
+function recieveDataFromServer(timer) {
   $.ajax({
     url: `/api/goofspiel/${url}`,
     type: 'GET',
     success: (data) => {
       gameData = data;
-      if (!$.isEmptyObject(gameData) && gameData.prizes.length !== 0) {
-        renderPlayerCards(gameData);
-        renderOpponentCards(gameData);
-        renderPrizeCard(gameData);
-        renderScore(gameData);
-      } 
+      if (!$.isEmptyObject(gameData)) {
+        if (gameData.prizes.length !== 0) {
+          renderPlayerCards(gameData);
+          renderOpponentCards(gameData);
+          renderPrizeCard(gameData);
+          renderScore(gameData);
+        } else {
+          renderVictory(gameData);
+        }
+      }
     },
     complete: (data) => {
-      if (!$.isEmptyObject(data) && data.prizes.length === 0) {
-        renderVictory(gameData);
-      } else {
-        setTimeout(recieveDataFromServer, interval);
+      timer = setTimeout(recieveDataFromServer, interval);
+      if (!$.isEmptyObject(data.responseJSON) && data.responseJSON.prizes.length === 0) {
+        clearTimeout(timer);
       }
     },
   });
-};
+}
 
 function createP1CardElem(id) {
   const $card = $(`
@@ -93,7 +96,7 @@ function saveGameResults(){
   const p1Score = calculateScore(1);
   const p2Score = calculateScore(2);
   console.log('HEYEHYEHEYHEYEH')
-  // if (p1Score > p2Score){
+
     $.ajax({
       type: 'POST',
       url: `/api/goofspiel/${url}/save`,
@@ -104,9 +107,6 @@ function saveGameResults(){
         player2: gameData.player2,
       }
     });
-  // } else if (p1Score < p2Score){
-  //   return;
-  // };
 };
 
 
@@ -137,7 +137,9 @@ function renderVictory() {
 }
 
 $(document).ready(() => {
-  setTimeout(recieveDataFromServer, interval);
+  let timer = setTimeout(function () {
+    recieveDataFromServer(timer);
+  }, interval);
 
   // CLICK HANDLERS //
   $('.player1-cards').on('click', 'div', (e) => {
