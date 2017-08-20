@@ -34,11 +34,11 @@ function createCardElem(id) {
 function renderPlayerCards(data) {
   const p1CardArea = $('.player1-cards');
   p1CardArea.html('');
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     data.p1Hand.forEach((card) => {
       p1CardArea.append(createCardElem(card));
     });
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     data.p2Hand.forEach((card) => {
       p1CardArea.append(createCardElem(card));
     });
@@ -49,11 +49,11 @@ function renderPlayerCards(data) {
 function renderOpponentCards(data) {
   const p2CardArea = $('.player2-cards');
   p2CardArea.html('');
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     data.p2Hand.forEach((card) => {
       p2CardArea.append(createCardElem(card));
     });
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     data.p1Hand.forEach((card) => {
       p2CardArea.append(createCardElem(card));
     });
@@ -76,12 +76,12 @@ function renderDealerCards(data, show) {
 }
 
 function renderScore(data) {
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     $('#player-score').html('');
     $('#player-score').append(gameData.p1HandValue);
     $('#opponent-score').html('');
     $('#opponent-score').append(gameData.p2HandValue);
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     $('#player-score').html('');
     $('#player-score').append(gameData.p2HandValue);
     $('#opponent-score').html('');
@@ -96,22 +96,22 @@ $(document).ready(function () {
 
   // CLICK HANDLERS //
   $('#hit-button').on('click', () => {
-    if (gameData.player1 === window.Cookies.get('username') && gameData.p1In) {
+    if (gameData.player1 === window.Cookies.get('user_id') && gameData.p1In) {
       $.ajax({
         type: 'POST',
         url: `/api/blackjack/${url}/hit`,
         contentType: 'application/json',
         data: JSON.stringify({
-          username: window.Cookies.get('username'),
+          username: window.Cookies.get('user_id'),
         }),
       });
-    } else if (gameData.player2 === window.Cookies.get('username') && gameData.p2In) {
+    } else if (gameData.player2 === window.Cookies.get('user_id') && gameData.p2In) {
       $.ajax({
         type: 'POST',
         url: `/api/blackjack/${url}/hit`,
         contentType: 'application/json',
         data: JSON.stringify({
-          username: window.Cookies.get('username'),
+          username: window.Cookies.get('user_id'),
         }),
       });
     }
@@ -121,22 +121,22 @@ $(document).ready(function () {
   });
 
   $('#stand-button').on('click', () => {
-    if (gameData.player1 === window.Cookies.get('username') && gameData.p1In) {
+    if (gameData.player1 === window.Cookies.get('user_id') && gameData.p1In) {
       $.ajax({
         type: 'POST',
         url: `/api/blackjack/${url}/stand`,
         contentType: 'application/json',
         data: JSON.stringify({
-          username: window.Cookies.get('username'),
+          username: window.Cookies.get('user_id'),
         }),
       });
-    } else if (gameData.player2 === window.Cookies.get('username') && gameData.p2In) {
+    } else if (gameData.player2 === window.Cookies.get('user_id') && gameData.p2In) {
       $.ajax({
         type: 'POST',
         url: `/api/blackjack/${url}/stand`,
         contentType: 'application/json',
         data: JSON.stringify({
-          username: window.Cookies.get('username'),
+          username: window.Cookies.get('user_id'),
         }),
       });
     }
