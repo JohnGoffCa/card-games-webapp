@@ -1,3 +1,4 @@
+//generate the users archived games
 function createArchiveElement(archive){
 	return `
 	      <tr>
@@ -21,6 +22,27 @@ const loadArchive = () => {
 	})
 }
 
+//generate the users current game links
+function createGameLinksElement(url){
+	return `
+	<div>
+	  <a href="${url}">url</a>
+	</div>`
+}
+
+const renderGameUrls = (data) => {
+	const urls = data.map(createGameLinksElement)
+	const html = urls.reverse().join('')
+	$('#game-urls').append(html)
+}
+
+const loadUserGameUrls = () => {
+	$.get(`/api/goofspiel/users/${ App.userId }/games`, function(data){
+		renderGameUrls(data)
+	})
+}
+
 $(function(){
   loadArchive()
+  loadUserGameUrls()
 })

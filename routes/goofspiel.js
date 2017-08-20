@@ -3,14 +3,26 @@ const express = require('express');
 const router  = express.Router();
 
 global.goofObj = {};
-
+global.usersGamesObj = {};
 module.exports = (knex) => {
   router.get('/:id', (req, res) => {
     res.send(global.goofObj[req.params.id]);
   });
 
   router.post('/:id', (req, res) => {
-    initGoofData(global.goofObj[req.params.id], req.body.player1, req.body.player2);
+    const id = req.params.id;
+    const user_id = req.cookies.user_id;
+    const userKey = `p${user_id}Games`;
+    
+    initGoofData(global.goofObj[id], req.body.player1, req.body.player2);
+    
+    if (global.usersGamesObj[userKey] === undefined) {
+      global.usersGamesObj[userKey] = [];
+    }
+    global.usersGamesObj[userKey] &&
+    typeof global.usersGamesObj[userKey] === 'array' &&
+    global.usersGamesObj[userKey].includes(id) ? null : global.usersGamesObj[userKey].append(id);
+
     res.sendStatus(201);
   });
 
@@ -51,6 +63,10 @@ module.exports = (knex) => {
       res.status(403).send('no game by that id yet exists');
     }
   });
-
+  
+  router.get('/users/:id/games', function (req, res) {
+    console.log('$$$$$$$$$$$', global.usersGamesObj)
+    res.send({games: global.usersGamesObj[req.params.id]});
+  });
   return router;
 };
