@@ -9,16 +9,17 @@
   <header>
     <% include ./partials/_header %>
   </header>
-  
+
+    <h1><%=username%>'s Scoreboard</h1>
 	  <article class="archived-game">
-      <table id="archives" style="background-color: white;">
+      <table id="archives" class="table table-bordered table-inverse">
 	      <tr>
-	        <th>Game</th>
-	        <th>Player 1</th>
-	        <th>Player 2</th>
-	        <th>Player 1 Score</th>
-	        <th>Player 2 Score</th>
-	      </tr>
+  	        <th>Game</th>
+  	        <th>Player 1</th>
+  	        <th>Player 2</th>
+  	        <th>Player 1 Score</th>
+  	        <th>Player 2 Score</th>
+	        </tr>
       </table>
 	  </article>
 </body>
@@ -29,4 +30,3 @@
 	 	userId: <%= userId %>
 	 }
 </script>
-
