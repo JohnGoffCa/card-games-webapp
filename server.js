@@ -86,6 +86,7 @@ app.get('/profile/:user', (req, res) => {
 // Allow user to logout and clear cookie from server (should move to userroute)
 app.get("/logout", (req, res) => {
   res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/");
  });
 

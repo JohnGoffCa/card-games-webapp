@@ -87,6 +87,17 @@ function renderScore(data) {
     $('#score').append(calculateScore(gameData.player2));
   }
 }
+
+function renderRank(data){
+  if (gameData.player1 === window.Cookies.get('user_id')) {
+    $('#score').html('');
+    $('#score').append(calculateScore(gameData.player1));
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
+    $('#score').html('');
+    $('#score').append(calculateScore(gameData.player2));
+  }
+}
+
 function calculateScore(playerId){
   const handsWon = gameData[`p${playerId}Won`];
   return handsWon ? handsWon.reduce((a, b) => a + b, 0) : 0;
