@@ -1,5 +1,5 @@
 /**
- * Shuffles array in place. ES6 version
+ * Shuffles array. ES6 version
  * @param {Array} a items The array containing the items.
  *
  * from: https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array

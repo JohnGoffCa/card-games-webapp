@@ -3,24 +3,24 @@
 <head>
   <title>Matchmaking</title>
   <% include ./partials/_head %>
-  <script type="text/javascript" src="/scripts/goofspiel.js"></script>
+  <script type="text/javascript" src="/scripts/blackjack.js"></script>
 </head>
 <body class="container-fluid">
   <header>
     <% include ./partials/_header %>
   </header>
-    <h1 class="game-title">Goofspiel</h1>
+    <h1 class="game-title">Blackjack</h1>
     <div class="game-board">
 
       <div class="row player2-cards"></div>
 
-      <div class="row prize-cards">
-      </div>
+      <div class="row dealer-cards"></div>
+
       <div class="row player1-cards"></div>
-      <div id="send-button" class="btn primary-btn hidden">Send</div>
+      <button id="hit-button" class="btn primary-btn">hit</button>
+      <button id="stand-button" class="btn primary-btn">stand</button>
       <ul id="notifications">
       <!-- notification message is rendered here -->
       <ul>
-      <div id="score"></div>
     </div>
 </body>
