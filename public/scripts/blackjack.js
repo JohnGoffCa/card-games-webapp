@@ -12,12 +12,12 @@ function recieveDataFromServer(timer) {
         renderPlayerCards(gameData);
         renderOpponentCards(gameData);
         renderDealerCards(gameData, false);
-        //renderScore(gameData);
+        renderScore(gameData);
       }
     },
     complete: (data) => {
       timer = setTimeout(recieveDataFromServer, interval);
-      if (!$.isEmptyObject(data.responseJSON) && (data.responseJSON.p1In && data.responseJSON.p2In)) {
+      if (!$.isEmptyObject(data.responseJSON) && (!data.responseJSON.p1In && !data.responseJSON.p2In)) {
         clearTimeout(timer);
       }
     },
@@ -43,6 +43,7 @@ function renderPlayerCards(data) {
       p1CardArea.append(createCardElem(card));
     });
   }
+  p1CardArea.append('<div id="player-score"></div>');
 }
 
 function renderOpponentCards(data) {
@@ -57,6 +58,7 @@ function renderOpponentCards(data) {
       p2CardArea.append(createCardElem(card));
     });
   }
+  p2CardArea.append('<div id="opponent-score"></div>');
 }
 
 function renderDealerCards(data, show) {
@@ -70,6 +72,21 @@ function renderDealerCards(data, show) {
   data.dealerHand.splice(0, 1).forEach((card) => {
     dealerArea.append(createCardElem(card));
   });
+  dealerArea.append('<div id="dealer-score"></div>');
+}
+
+function renderScore(data) {
+  if (gameData.player1 === window.Cookies.get('username')) {
+    $('#player-score').html('');
+    $('#player-score').append(gameData.p1HandValue);
+    $('#opponent-score').html('');
+    $('#opponent-score').append(gameData.p2HandValue);
+  } else if (gameData.player2 === window.Cookies.get('username')) {
+    $('#player-score').html('');
+    $('#player-score').append(gameData.p2HandValue);
+    $('#opponent-score').html('');
+    $('#opponent-score').append(gameData.p1HandValue);
+  }
 }
 
 $(document).ready(function () {

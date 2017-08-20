@@ -26,17 +26,14 @@ module.exports = () => {
         url: random(),
       };
 
-      console.log("player1 is ready", playersReady);
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`);
 
     } else if (playersReady.goofspiel.player1 === req.cookies.username) {
-      console.log("you are already player1")
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`);
       return;
 
     } else {
       playersReady.goofspiel.player2 = req.cookies.username;
-      console.log("who is player2?", playersReady);
       //connect to api endpoint to create in memory object
       init.goofData(playersReady.goofspiel.url, playersReady.goofspiel.player1, playersReady.goofspiel.player2);
 
@@ -54,20 +51,16 @@ module.exports = () => {
         url: random(),
       };
 
-      console.log("player1 is ready", playersReady);
       res.redirect(`/game/blackjack/${playersReady.blackjack.url}`);
 
     } else if (playersReady.blackjack.player1 === req.cookies.username) {
-      console.log("you are already player1")
       res.redirect(`/game/blackjack/${playersReady.blackjack.url}`);
       return;
 
     } else {
       playersReady.blackjack.player2 = req.cookies.username;
-      console.log("who is player2?", playersReady);
       //connect to api endpoint to create in memory object
       init.jackData(playersReady.blackjack.url, playersReady.blackjack.player1, playersReady.blackjack.player2);
-      console.log(global.jackObj);
 
       //add playersReady to gamesession and redirect to /game/blackjack/:url
       res.redirect(`/game/blackjack/${playersReady.blackjack.url}`)

@@ -33,12 +33,14 @@ module.exports = {
       p1Sent: false,
       p1In: true,
       p1Hand: [],
+      p1HandValue: 0,
       //player2: req.body.player2,
       //same as above
       player2: p2,
       p2Sent: false,
       p2In: true,
       p2Hand: [],
+      p2HandValue: 0,
       dealerHand: [],
       deck: shuffle(deck),
     };

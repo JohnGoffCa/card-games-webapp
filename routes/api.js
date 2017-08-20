@@ -64,7 +64,10 @@ module.exports = () => {
   ////////////////////////////////////
 
   router.get('/blackjack/:id', (req, res) => {
-    res.send(global.jackObj[req.params.id]);
+    const currObj = global.jackObj[req.params.id];
+    currObj.p1HandValue = blackjack.handValue(currObj.p1Hand);
+    currObj.p2HandValue = blackjack.handValue(currObj.p2Hand);
+    res.send(currObj);
   });
 
   router.post('/blackjack/:id', (req, res) => {
