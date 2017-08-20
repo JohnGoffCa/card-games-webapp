@@ -46,11 +46,11 @@ function createP2CardElem(id) {
 function renderPlayerCards(data) {
   const p1CardArea = $('.player1-cards');
   p1CardArea.html('');
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     data.p1Hand.forEach((card) => {
       p1CardArea.append(createP1CardElem(card));
     });
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     data.p2Hand.forEach((card) => {
       p1CardArea.append(createP1CardElem(card));
     });
@@ -60,11 +60,11 @@ function renderPlayerCards(data) {
 function renderOpponentCards(data) {
   const p2CardArea = $('.player2-cards');
   p2CardArea.html('');
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     data.p2Hand.forEach((card) => {
       p2CardArea.append(createP2CardElem(card));
     });
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     data.p1Hand.forEach((card) => {
       p2CardArea.append(createP2CardElem(card));
     });
@@ -79,12 +79,12 @@ function renderPrizeCard(data) {
 }
 
 function renderScore(data) {
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     $('#score').html('');
-    $('#score').append(calculateScore(1));
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+    $('#score').append(calculateScore(gameData.player1));
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     $('#score').html('');
-    $('#score').append(calculateScore(2));
+    $('#score').append(calculateScore(gameData.player2));
   }
 }
 function calculateScore(playerId){
@@ -93,8 +93,8 @@ function calculateScore(playerId){
 }
 
 function saveGameResults(){
-  const p1Score = calculateScore(1);
-  const p2Score = calculateScore(2);
+  const p1Score = calculateScore(gameData.player1);
+  const p2Score = calculateScore(gameData.player2);
   console.log('HEYEHYEHEYHEYEH')
 
     $.ajax({
@@ -112,10 +112,10 @@ function saveGameResults(){
 
 
 function renderVictory() {
-  const p1Score = calculateScore(1);
-  const p2Score = calculateScore(2);
+  const p1Score = calculateScore(gameData.player1);
+  const p2Score = calculateScore(gameData.player2);
   $('#victory').removeClass('hidden');
-  if (gameData.player1 === window.Cookies.get('username')) {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
     if (p1Score > p2Score) {
       console.log('winner')
       saveGameResults();
@@ -124,7 +124,7 @@ function renderVictory() {
       console.log('loser')
       //p1 lost
     }
-  } else if (gameData.player2 === window.Cookies.get('username')) {
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
     if (p2Score > p1Score) {
       console.log('winner')
       saveGameResults();
@@ -148,7 +148,7 @@ $(document).ready(() => {
   });
 
   $('#send-button').on('click', () => {
-    if (gameData.player1 === window.Cookies.get('username') && !gameData.p1Sent) {
+    if (gameData.player1 === window.Cookies.get('user_id') && !gameData.p1Sent) {
       $(`#${sent}`).addClass('hidden');
       $('#send-button').addClass('hidden');
 
@@ -158,12 +158,12 @@ $(document).ready(() => {
         contentType: 'application/json',
         data: JSON.stringify({
           played: sent,
-          username: window.Cookies.get('username'),
+          username: window.Cookies.get('user_id'),
         }),
         complete: () => console.log('p1 ajax sent'),
       });
     }
-    else if (gameData.player2 === window.Cookies.get('username') && !gameData.p2Sent) {
+    else if (gameData.player2 === window.Cookies.get('user_id') && !gameData.p2Sent) {
       $(`#${sent}`).addClass('hidden');
       $('#send-button').addClass('hidden');
       $.ajax({
@@ -172,7 +172,7 @@ $(document).ready(() => {
         contentType: 'application/json',
         data: JSON.stringify({
           played: sent,
-          username: window.Cookies.get('username'),
+          username: window.Cookies.get('user_id'),
         }),
         complete: () => console.log('p2 ajax sent'),
       });
