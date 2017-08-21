@@ -29,6 +29,19 @@ module.exports = (knex) => {
         console.error("Error: ", err);
       })
   });
+
+  router.get('/profile/:user', (req, res) => {
+    // Search username or id on db
+    knex.select('username').from('users').where({ id: req.params.user }).then((result) => {
+      let templateVars = {
+        username: req.cookies.username,
+        profileUsername: result[0].username,
+        userId: req.params.user,
+      };
+      res.render('profile', templateVars);
+    });
+  });
+
   //render users archives games on profile page
   router.get('/profile/:user/json', (req, res) => {
     console.log(req.params.user)
