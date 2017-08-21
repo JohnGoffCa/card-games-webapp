@@ -8,6 +8,7 @@ function recieveDataFromServer(timer) {
     url: `/api/goofspiel/${url}`,
     type: 'GET',
     success: (data) => {
+      console.log(data)
       gameData = data;
       if (!$.isEmptyObject(gameData)) {
         if (gameData.prizes.length !== 0) {
@@ -15,6 +16,7 @@ function recieveDataFromServer(timer) {
           renderOpponentCards(gameData);
           renderPrizeCard(gameData);
           renderScore(gameData);
+          renderPlayerUsernames(gameData);
         } else {
           renderVictory(gameData);
         }
@@ -87,15 +89,24 @@ function renderScore(data) {
     $('#score').append(calculateScore(gameData.player2));
   }
 }
+
+function renderPlayerUsernames(data){ 
+    $('#your-username').html('');
+    $('#your-username').append(`${gameData.player1Username}`);
+    $('#versus').html('VS');
+    $('#opponents-username').html('');
+    $('#opponents-username').append(`${gameData.player2Username}`);
+  
+}
+
 function calculateScore(playerId){
   const handsWon = gameData[`p${playerId}Won`];
   return handsWon ? handsWon.reduce((a, b) => a + b, 0) : 0;
 }
 
-function saveGameResults(){
+function saveGameResults(winnerId){
   const p1Score = calculateScore(gameData.player1);
   const p2Score = calculateScore(gameData.player2);
-  console.log('HEYEHYEHEYHEYEH')
 
     $.ajax({
       type: 'POST',
@@ -105,6 +116,7 @@ function saveGameResults(){
         p2Score: p2Score,
         player1: gameData.player1,
         player2: gameData.player2,
+        winner: winnerId
       }
     });
 };
@@ -116,7 +128,7 @@ function renderVictory() {
   if (gameData.player1 === window.Cookies.get('user_id')) {
 
     if (p1Score > p2Score) {
-      saveGameResults();
+      saveGameResults(gameData.player1);
       //display victory for p1
       showNotification({ msg: "You won!" });
     } else if (p1Score < p2Score) {
@@ -125,7 +137,7 @@ function renderVictory() {
     }
   } else if (gameData.player2 === window.Cookies.get('user_id')) {
     if (p2Score > p1Score) {
-      saveGameResults();
+      saveGameResults(gameData.player2);
       //display victory for p2
       showNotification({ msg: "You won!" })
     } else if (p2Score < p1Score) {

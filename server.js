@@ -68,6 +68,16 @@ app.get("/login", (req, res) => {
   res.render('login');
 });
 
+
+app.get('/game/goofspiel/:id', (req, res) => {
+  // Search game id on db
+  let templateVars = {
+    userId: req.cookies.user_id,
+    username: req.cookies.username
+  };
+  res.render('goofspiel', templateVars);
+});
+
 app.get('/profile/:user', (req, res) => {
   // Search username or id on db
     let templateVars = {
@@ -80,6 +90,7 @@ app.get('/profile/:user', (req, res) => {
 // Allow user to logout and clear cookie from server (should move to userroute)
 app.get("/logout", (req, res) => {
   res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/");
  });
 

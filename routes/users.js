@@ -49,10 +49,10 @@ module.exports = (knex) => {
       .orWhere({player2_id: req.params.user})
       .orderBy('gamesessions.id')
       .then((data) => {
-        console.log(data)
         res.send(data);
       })
    })
+
   return router;
 
 }
