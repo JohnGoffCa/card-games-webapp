@@ -6,7 +6,8 @@ module.exports = () => {
   router.get('/goofspiel/:id', (req, res) => {
     // Search game id on db
     let templateVars = {
-      username: req.cookies.username
+      userId: req.cookies.user_id,
+      username: req.cookies.username,
     };
     res.render('goofspiel', templateVars);
   });
@@ -14,7 +15,8 @@ module.exports = () => {
   router.get('/blackjack/:id', (req, res) => {
     // Search game id on db
     let templateVars = {
-      username: req.cookies.username
+      userId: req.cookies.user_id,
+      username: req.cookies.username,
     };
     res.render('blackjack', templateVars);
   });

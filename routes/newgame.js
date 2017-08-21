@@ -10,7 +10,8 @@ module.exports = () => {
   router.get('/', (req, res) => {
     if (req.cookies['username']) {
       let templateVars = {
-        username: req.cookies.username
+        userId: req.cookies.user_id,
+        username: req.cookies.username,
       };
       res.render('newgame', templateVars);
     } else {
@@ -31,14 +32,10 @@ module.exports = () => {
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`);
 
     } else if (playersReady.goofspiel.player1 === req.cookies.user_id) {
-      console.log("you are already player1")
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`);
-      return;
-
     } else {
       playersReady.goofspiel.player2 = req.cookies.user_id;
       playersReady.goofspiel.player2Username = req.cookies.username;
-      console.log("who is player2?", playersReady);
       //connect to api endpoint to create in memory object
       init.goofData(playersReady.goofspiel.url, playersReady.goofspiel.player1, playersReady.goofspiel.player2, playersReady.goofspiel.player1Username, playersReady.goofspiel.player2Username);
 

@@ -58,7 +58,6 @@ module.exports = (knex) => {
   });
 
   router.post('/goofspiel/:id/save', (req, res) => {
-    console.log(req.body, '$$$$$$$$$$$$$ games')
     knex('gamesessions')
     .insert({player1_id: req.body.player1, 
       player2_id: req.body.player2, 
@@ -133,6 +132,19 @@ module.exports = (knex) => {
     blackjack.dealerFinishGame(currObj);
     res.send(currObj);
   });
+
+  router.post('/blackjack/:id/save', (req, res) => {
+    knex('gamesessions')
+    .insert({player1_id: req.body.player1, 
+      player2_id: req.body.player2, 
+      p1_finalscore: req.body.p1Score,
+      p2_finalscore: req.body.p2Score,
+      winner_id: req.body.winner,
+      gameinfo_id: 2,
+    }).then((result)=>{
+        res.status(204).end();
+    })
+  })
 
   /** End of Blackjack API routes */
 

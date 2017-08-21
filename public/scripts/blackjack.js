@@ -115,17 +115,31 @@ function showNotification(contentObj) {
   let notifications = $('#notifications').html('').append(newNotification);
 }
 
+function saveGameResults(winnerId){
+  $.ajax({
+    type: 'POST',
+    url: `/api/blackjack/${url}/save`,
+    data: {
+      p1Score: gameData.p1HandValue,
+      p2Score: gameData.p2HandValue,
+      player1: gameData.player1,
+      player2: gameData.player2,
+      winner: winnerId,
+    }
+  });
+};
+
 function renderVictory() {
   if (gameData.player1 === window.Cookies.get('user_id')) {
     if (calculateWinner(gameData.p1HandValue, gameData.p2HandValue, gameData.dealerHandValue)) {
-      //saveGameResults();
+      saveGameResults(gameData.player1);
       showNotification({ msg: 'You Won!' });
     } else {
       showNotification({ msg: 'You Lost!' });
     }
   } else if (gameData.player2 === window.Cookies.get('user_id')) {
     if (calculateWinner(gameData.p2HandValue, gameData.p1HandValue, gameData.dealerHandValue)) {
-      //saveGameResults();
+      saveGameResults(gameData.player2);
       showNotification({ msg: 'You Won!' });
     } else {
       showNotification({ msg: 'You Lost!' });
