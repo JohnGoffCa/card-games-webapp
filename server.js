@@ -69,6 +69,7 @@ app.get("/login", (req, res) => {
 app.get('/game/goofspiel/:id', (req, res) => {
   // Search game id on db
   let templateVars = {
+    userId: req.cookies.user_id,
     username: req.cookies.username
   };
   res.render('goofspiel', templateVars);

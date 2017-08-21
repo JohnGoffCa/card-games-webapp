@@ -24,7 +24,9 @@ module.exports = () => {
     if (!playersReady.goofspiel) {
       playersReady.goofspiel = {
         player1: req.cookies.user_id,
+        player1Username: req.cookies.username,
         player2: null,
+        player2Username: null,
         url: random(),
       };
 
@@ -39,9 +41,10 @@ module.exports = () => {
 
     } else {
       playersReady.goofspiel.player2 = req.cookies.user_id;
+      playersReady.goofspiel.player2Username = req.cookies.username;
       console.log("who is player2?", playersReady);
       //connect to api endpoint to create in memory object
-      initGoofData(playersReady.goofspiel.url, playersReady.goofspiel.player1, playersReady.goofspiel.player2);
+      initGoofData(playersReady.goofspiel.url, playersReady.goofspiel.player1, playersReady.goofspiel.player2, playersReady.goofspiel.player1Username, playersReady.goofspiel.player2Username);
 
       //add playersReady to gamesession and redirect to /game/goofspiel/:url
       res.redirect(`/game/goofspiel/${playersReady.goofspiel.url}`)

@@ -8,6 +8,7 @@ function recieveDataFromServer(timer) {
     url: `/api/goofspiel/${url}`,
     type: 'GET',
     success: (data) => {
+      console.log(data)
       gameData = data;
       if (!$.isEmptyObject(gameData)) {
         if (gameData.prizes.length !== 0) {
@@ -15,6 +16,7 @@ function recieveDataFromServer(timer) {
           renderOpponentCards(gameData);
           renderPrizeCard(gameData);
           renderScore(gameData);
+          renderPlayerUsernames(gameData);
         } else {
           renderVictory(gameData);
         }
@@ -88,14 +90,13 @@ function renderScore(data) {
   }
 }
 
-function renderRank(data){
-  if (gameData.player1 === window.Cookies.get('user_id')) {
-    $('#score').html('');
-    $('#score').append(calculateScore(gameData.player1));
-  } else if (gameData.player2 === window.Cookies.get('user_id')) {
-    $('#score').html('');
-    $('#score').append(calculateScore(gameData.player2));
-  }
+function renderPlayerUsernames(data){ 
+    $('#your-username').html('');
+    $('#your-username').append(`${gameData.player1Username}`);
+    $('#versus').html('VS');
+    $('#opponents-username').html('');
+    $('#opponents-username').append(`${gameData.player2Username}`);
+  
 }
 
 function calculateScore(playerId){
