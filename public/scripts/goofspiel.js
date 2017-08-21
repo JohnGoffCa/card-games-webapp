@@ -116,7 +116,7 @@ function saveGameResults(winnerId){
         p2Score: p2Score,
         player1: gameData.player1,
         player2: gameData.player2,
-        winner: winnerId
+        winner: winnerId,
       }
     });
 };

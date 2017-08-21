@@ -43,7 +43,7 @@ app.use(express.static('public'));
 
 // Mount all resource routes
 app.use('/', usersRoutes(knex));
-app.use('/api', apiRoutes());
+app.use('/api', apiRoutes(knex));
 app.use('/newgame', newgameRoutes());
 app.use('/game', gameRoutes());
 

@@ -6,7 +6,7 @@ const router  = express.Router();
 global.goofObj = {};
 global.jackObj = {};
 
-module.exports = () => {
+module.exports = (knex) => {
   ////////////////////////////////////
   /** Start of Goofspiel API routes */
   ////////////////////////////////////
@@ -64,7 +64,8 @@ module.exports = () => {
       player2_id: req.body.player2, 
       p1_finalscore: req.body.p1Score,
       p2_finalscore: req.body.p2Score,
-      gameinfo_id: 1
+      winner_id: req.body.winner,
+      gameinfo_id: 1,
     }).then((result)=>{
         res.status(204).end();
     })
