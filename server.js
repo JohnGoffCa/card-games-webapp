@@ -55,6 +55,7 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   if (req.cookies['username']) {
     let templateVars = {
+      userId: req.cookies.user_id,
       username: req.cookies.username
     };
     res.render('index', templateVars);
