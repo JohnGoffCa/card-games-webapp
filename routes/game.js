@@ -1,11 +1,11 @@
 const express = require('express');
 
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = () => {
   router.get('/goofspiel/:id', (req, res) => {
     // Search game id on db
-    let templateVars = {
+    const templateVars = {
       userId: req.cookies.user_id,
       username: req.cookies.username,
     };
@@ -14,7 +14,7 @@ module.exports = () => {
 
   router.get('/blackjack/:id', (req, res) => {
     // Search game id on db
-    let templateVars = {
+    const templateVars = {
       userId: req.cookies.user_id,
       username: req.cookies.username,
     };
@@ -22,4 +22,4 @@ module.exports = () => {
   });
 
   return router;
-}
+};

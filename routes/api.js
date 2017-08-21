@@ -1,7 +1,8 @@
 const init = require('../helpers/initGameDatabase');
 const blackjack = require('../helpers/blackjack');
 const express = require('express');
-const router  = express.Router();
+
+const router = express.Router();
 
 global.goofObj = {};
 global.jackObj = {};
@@ -25,12 +26,12 @@ module.exports = (knex) => {
       if (req.body.username === currObj.player1) {
         currObj.p1LastPlayed = req.body.played;
         currObj.p1Sent = true;
-        let index = currObj.p1Hand.indexOf(parseInt(req.body.played, 10));
+        const index = currObj.p1Hand.indexOf(parseInt(req.body.played, 10));
         currObj.p1Hand.splice(index, 1);
       } else if (req.body.username === currObj.player2) {
         currObj.p2LastPlayed = req.body.played;
         currObj.p2Sent = true;
-        let index = currObj.p2Hand.indexOf(parseInt(req.body.played, 10));
+        const index = currObj.p2Hand.indexOf(parseInt(req.body.played, 10));
         currObj.p2Hand.splice(index, 1);
       }
 
@@ -59,16 +60,17 @@ module.exports = (knex) => {
 
   router.post('/goofspiel/:id/save', (req, res) => {
     knex('gamesessions')
-    .insert({player1_id: req.body.player1, 
-      player2_id: req.body.player2, 
-      p1_finalscore: req.body.p1Score,
-      p2_finalscore: req.body.p2Score,
-      winner_id: req.body.winner,
-      gameinfo_id: 1,
-    }).then((result)=>{
+      .insert({
+        player1_id: req.body.player1,
+        player2_id: req.body.player2,
+        p1_finalscore: req.body.p1Score,
+        p2_finalscore: req.body.p2Score,
+        winner_id: req.body.winner,
+        gameinfo_id: 1,
+      }).then(() => {
         res.status(204).end();
-    })
-  })
+      });
+  });
 
   /** End of Goofspiel API routes */
 
@@ -135,16 +137,17 @@ module.exports = (knex) => {
 
   router.post('/blackjack/:id/save', (req, res) => {
     knex('gamesessions')
-    .insert({player1_id: req.body.player1, 
-      player2_id: req.body.player2, 
-      p1_finalscore: req.body.p1Score,
-      p2_finalscore: req.body.p2Score,
-      winner_id: req.body.winner,
-      gameinfo_id: 2,
-    }).then((result)=>{
+      .insert({
+        player1_id: req.body.player1,
+        player2_id: req.body.player2,
+        p1_finalscore: req.body.p1Score,
+        p2_finalscore: req.body.p2Score,
+        winner_id: req.body.winner,
+        gameinfo_id: 2,
+      }).then(() => {
         res.status(204).end();
-    })
-  })
+      });
+  });
 
   /** End of Blackjack API routes */
 
