@@ -33,7 +33,15 @@ function handValue(hand) {
   return handVal;
 }
 
+function dealerFinishGame (gameData) {
+  while (gameData.dealerHandValue < 17) {
+    gameData.dealerHand.push(gameData.deck.pop());
+    gameData.dealerHandValue = handValue(gameData.dealerHand);
+  }
+}
+
 module.exports = {
   cardValue,
   handValue,
+  dealerFinishGame,
 };

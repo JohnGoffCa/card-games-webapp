@@ -87,27 +87,85 @@ function renderDealerCards(data, show) {
   } else {
     dealerArea.append(createCardElem(000));
   }
-  data.dealerHand.splice(0, 1).forEach(function (card) {
+  data.dealerHand.slice(1).forEach(function (card) {
     dealerArea.append(createCardElem(card));
   });
   dealerArea.append('<div id="dealer-score"></div>');
 }
 
-function dealerPlay(data) {
-  while (
+function dealerPlay() {
+  $.ajax({
+    url: `/api/blackjack/${url}/finish`,
+    type: 'GET',
+    success: function (data) {
+      gameData = data;
+      renderDealerCards(data, true);
+      $('#dealer-score').append(data.dealerHandValue);
+      renderVictory();
+    },
+  });
+}
+
+function showNotification(contentObj) {
+  const msg = contentObj.msg;
+  const type = contentObj.type;
+
+  const newNotification = `<li class="notification">${msg} <a href="/newgame">Play again!</a></li>`
+
+  let notifications = $('#notifications').html('').append(newNotification);
+}
+
+function renderVictory() {
+  if (gameData.player1 === window.Cookies.get('user_id')) {
+    if (calculateWinner(gameData.p1HandValue, gameData.p2HandValue, gameData.dealerHandValue)) {
+      //saveGameResults();
+      showNotification({ msg: 'You Won!' });
+    } else {
+      showNotification({ msg: 'You Lost!' });
+    }
+  } else if (gameData.player2 === window.Cookies.get('user_id')) {
+    if (calculateWinner(gameData.p2HandValue, gameData.p1HandValue, gameData.dealerHandValue)) {
+      //saveGameResults();
+      showNotification({ msg: 'You Won!' });
+    } else {
+      showNotification({ msg: 'You Lost!' });
+    }
+  }
+}
+
+// returns true if player won, false if not
+function calculateWinner(playerVal, opponentVal, dealerVal) {
+  if (playerVal > 21) {
+    return false;
+  }
+  if (opponentVal > 21 && dealerVal > 21) {
+    return true;
+  } else if (opponentVal > 21) {
+    if (playerVal > dealerVal) {
+      return true;
+    }
+  } else if (dealerVal > 21) {
+    if (playerVal > opponentVal) {
+      return true;
+    }
+  } else {
+    if (playerVal > dealerVal && playerVal > opponentVal) {
+      return true;
+    }
+  }
 }
 
 function renderScore(data) {
   if (gameData.player1 === window.Cookies.get('user_id')) {
     $('#player-score').html('');
-    $('#player-score').append(gameData.p1HandValue);
+    $('#player-score').append(data.p1HandValue);
     $('#opponent-score').html('');
-    $('#opponent-score').append(gameData.p2HandValue);
+    $('#opponent-score').append(data.p2HandValue);
   } else if (gameData.player2 === window.Cookies.get('user_id')) {
     $('#player-score').html('');
-    $('#player-score').append(gameData.p2HandValue);
+    $('#player-score').append(data.p2HandValue);
     $('#opponent-score').html('');
-    $('#opponent-score').append(gameData.p1HandValue);
+    $('#opponent-score').append(data.p1HandValue);
   }
 }
 

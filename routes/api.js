@@ -78,9 +78,11 @@ module.exports = () => {
 
   router.get('/blackjack/:id', (req, res) => {
     const currObj = global.jackObj[req.params.id];
-    currObj.p1HandValue = blackjack.handValue(currObj.p1Hand);
-    currObj.p2HandValue = blackjack.handValue(currObj.p2Hand);
-    currObj.dealerHandValue = blackjack.handValue(currObj.dealerHand);
+    if (currObj) {
+      currObj.p1HandValue = blackjack.handValue(currObj.p1Hand);
+      currObj.p2HandValue = blackjack.handValue(currObj.p2Hand);
+      currObj.dealerHandValue = blackjack.handValue(currObj.dealerHand);
+    }
     res.send(currObj);
   });
 
@@ -93,13 +95,11 @@ module.exports = () => {
     const currObj = global.jackObj[req.params.id];
     if (currObj) {
       if (req.body.username === currObj.player1) {
-        console.log('p1 hit');
         currObj.p1Hand.push(currObj.deck.pop());
         if (blackjack.handValue(currObj.p1Hand) >= 21) {
           currObj.p1In = false;
         }
       } else if (req.body.username === currObj.player2) {
-        console.log('p2 hit');
         currObj.p2Hand.push(currObj.deck.pop());
         if (blackjack.handValue(currObj.p2Hand) >= 21) {
           currObj.p2In = false;
@@ -121,14 +121,16 @@ module.exports = () => {
         currObj.p2In = false;
       }
 
-      if (!currObj.p2In && !currObj.p1In) {
-        console.log('both out');
-      }
-
       res.sendStatus(201);
     } else {
       res.status(403).send('no game by that id yet exists');
     }
+  });
+
+  router.get('/blackjack/:id/finish', (req, res) => {
+    const currObj = global.jackObj[req.params.id];
+    blackjack.dealerFinishGame(currObj);
+    res.send(currObj);
   });
 
   /** End of Blackjack API routes */
