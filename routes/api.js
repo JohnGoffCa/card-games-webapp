@@ -1,7 +1,8 @@
 const init = require('../helpers/initGameDatabase');
 const blackjack = require('../helpers/blackjack');
 const express = require('express');
-const router  = express.Router();
+
+const router = express.Router();
 
 global.goofObj = {};
 global.jackObj = {};
@@ -59,7 +60,8 @@ module.exports = (knex) => {
 
   router.post('/goofspiel/:id/save', (req, res) => {
     knex('gamesessions')
-      .insert({ player1_id: req.body.player1,
+      .insert({ 
+        player1_id: req.body.player1,
         player2_id: req.body.player2,
         p1_finalscore: req.body.p1Score,
         p2_finalscore: req.body.p2Score,
@@ -67,8 +69,8 @@ module.exports = (knex) => {
         gameinfo_id: 1,
       }).then(res => {
           res.status(204).end();
-      })
-  })
+      });
+  });
 
   /** End of Goofspiel API routes */
 
@@ -135,7 +137,8 @@ module.exports = (knex) => {
 
   router.post('/blackjack/:id/save', (req, res) => {
     knex('gamesessions')
-      .insert({ player1_id: req.body.player1,
+      .insert({
+        player1_id: req.body.player1,
         player2_id: req.body.player2,
         p1_finalscore: req.body.p1Score,
         p2_finalscore: req.body.p2Score,
