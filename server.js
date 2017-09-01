@@ -22,8 +22,7 @@ const gameRoutes = require('./routes/game');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
-//         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-//app.use(morgan('dev'));
+// The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
@@ -31,7 +30,10 @@ app.use(knexLogger(knex));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 app.use('/styles', sass({
   src: __dirname + '/styles',
@@ -47,14 +49,10 @@ app.use('/api', apiRoutes(knex));
 app.use('/newgame', newgameRoutes());
 app.use('/game', gameRoutes());
 
-// Use cookie-parser to create a simple login mockup
-var cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
 // GET requests to render pages
 app.get('/', (req, res) => {
-  if (req.cookies['username']) {
-    let templateVars = {
+  if (req.cookies.username) {
+    const templateVars = {
       userId: req.cookies.user_id,
       username: req.cookies.username
     };
@@ -62,29 +60,26 @@ app.get('/', (req, res) => {
   } else {
     res.redirect('/login');
   }
-
 });
 
-app.get("/login", (req, res) => {
+app.get('/login', (req, res) => {
   res.render('login');
 });
 
-
 app.get('/game/goofspiel/:id', (req, res) => {
   // Search game id on db
-  let templateVars = {
+  const templateVars = {
     userId: req.cookies.user_id,
     username: req.cookies.username
   };
   res.render('goofspiel', templateVars);
 });
 
-// Allow user to logout and clear cookie from server (should move to userroute)
-app.get("/logout", (req, res) => {
-  res.clearCookie("username");
-  res.clearCookie("user_id");
-  res.redirect("/");
- });
+app.get('/logout', (req, res) => {
+  res.clearCookie('username');
+  res.clearCookie('user_id');
+  res.redirect('/');
+});
 
 app.listen(PORT, () => {
   console.log('Example app listening on port ' + PORT);

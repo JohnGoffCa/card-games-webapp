@@ -60,15 +60,15 @@ module.exports = (knex) => {
 
   router.post('/goofspiel/:id/save', (req, res) => {
     knex('gamesessions')
-      .insert({
+      .insert({ 
         player1_id: req.body.player1,
         player2_id: req.body.player2,
         p1_finalscore: req.body.p1Score,
         p2_finalscore: req.body.p2Score,
         winner_id: req.body.winner,
         gameinfo_id: 1,
-      }).then(() => {
-        res.status(204).end();
+      }).then(res => {
+          res.status(204).end();
       });
   });
 
@@ -144,8 +144,8 @@ module.exports = (knex) => {
         p2_finalscore: req.body.p2Score,
         winner_id: req.body.winner,
         gameinfo_id: 2,
-      }).then(() => {
-        res.status(204).end();
+      }).then(res => {
+          res.status(204).end();
       });
   });
 
